@@ -1,0 +1,6 @@
+{
+  "generator-spring-microservice": {
+    "packageName": "no.nb.microservices.clickstream",
+    "packageFolder": "no/nb/microservices/clickstream"
+  }
+}
