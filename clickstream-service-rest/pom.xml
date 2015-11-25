@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>clickstream-rest</artifactId>
+    <artifactId>clickstream-service-rest</artifactId>
     <packaging>jar</packaging>
-    <name>clickstream-rest</name>
+    <name>clickstream-service-rest</name>
 
     <parent>
         <groupId>no.nb.microservices.clickstream</groupId>
-        <artifactId>clickstream</artifactId>
+        <artifactId>clickstream-service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -68,7 +68,7 @@
         </dependency>  
         <dependency>
             <groupId>no.nb.microservices.clickstream</groupId>
-            <artifactId>clickstream-model</artifactId>
+            <artifactId>clickstream-service-model</artifactId>
             <version>${project.version}</version>
         </dependency>
 

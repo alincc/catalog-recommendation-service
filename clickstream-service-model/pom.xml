@@ -6,10 +6,10 @@
 
     <parent>
         <groupId>no.nb.microservices.clickstream</groupId>
-        <artifactId>clickstream</artifactId>
+        <artifactId>clickstream-service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>clickstream-model</artifactId>
+    <artifactId>clickstream-service-model</artifactId>
 
     <dependencies>
         <dependency>
