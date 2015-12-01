@@ -3,7 +3,6 @@ package no.nb.microservices.clickstream.rest.global;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -28,15 +27,15 @@ public class GlobalExceptionHandler {
         }
 
         LOG.error("" +
-                "Got an unexcepted exception.\n" +
-                "Context Path: " + req.getContextPath() + "\n" +
-                "Request URI: " + req.getRequestURI() + "\n" +
-                "Query String: " + req.getQueryString() + "\n" +
-                "Method: " + req.getMethod() + "\n" +
-                "Headers: " + headers + "\n" +
-                "Auth Type: " + req.getAuthType() + "\n" +
-                "Remote User: " + req.getRemoteUser() + "\n" +
-                "Username: " + ((req.getUserPrincipal() != null) ? req.getUserPrincipal().getName() : "Anonymous") + "\n"
+                        "Got an unexcepted exception.\n" +
+                        "Context Path: " + req.getContextPath() + "\n" +
+                        "Request URI: " + req.getRequestURI() + "\n" +
+                        "Query String: " + req.getQueryString() + "\n" +
+                        "Method: " + req.getMethod() + "\n" +
+                        "Headers: " + headers + "\n" +
+                        "Auth Type: " + req.getAuthType() + "\n" +
+                        "Remote User: " + req.getRemoteUser() + "\n" +
+                        "Username: " + ((req.getUserPrincipal() != null) ? req.getUserPrincipal().getName() : "Anonymous") + "\n"
                 , e);
     }
 }

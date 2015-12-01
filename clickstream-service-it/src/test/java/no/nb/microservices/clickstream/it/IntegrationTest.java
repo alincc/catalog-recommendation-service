@@ -1,6 +1,5 @@
 package no.nb.microservices.clickstream.it;
 
-import no.nb.microservices.clickstream.*;
 import com.netflix.loadbalancer.BaseLoadBalancer;
 import com.netflix.loadbalancer.ILoadBalancer;
 import com.netflix.loadbalancer.Server;
@@ -8,6 +7,7 @@ import com.squareup.okhttp.mockwebserver.Dispatcher;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 import com.squareup.okhttp.mockwebserver.RecordedRequest;
+import no.nb.microservices.clickstream.Application;
 import okio.Buffer;
 import org.apache.commons.io.IOUtils;
 import org.junit.After;
@@ -37,7 +37,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
-        import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -72,14 +72,11 @@ public class IntegrationTest {
             public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
                 if (request.getPath().equals("/service1/method1")) {
                     return new MockResponse().setBody(mock1).setHeader("Content-Type", "application/hal+json; charset=utf-8");
-                }
-                else if (request.getPath().equals("/service1/method2")) {
+                } else if (request.getPath().equals("/service1/method2")) {
                     return new MockResponse().setBody(mock1).setHeader("Content-Type", "application/hal+json; charset=utf-8");
-                }
-                else if (request.getPath().equals("/service2/method1")) {
+                } else if (request.getPath().equals("/service2/method1")) {
                     return new MockResponse().setBody(mock1).setHeader("Content-Type", "application/hal+json; charset=utf-8");
-                }
-                else {
+                } else {
                     return new MockResponse().setResponseCode(404);
                 }
             }
@@ -109,8 +106,7 @@ public class IntegrationTest {
             InputStream inputStream = new ClassPathResource(path).getInputStream();
             ByteArrayResource byteArrayResource = new ByteArrayResource(IOUtils.toByteArray(inputStream));
             buffer.write(byteArrayResource.getByteArray());
-        }
-        catch (IOException ioe) {
+        } catch (IOException ioe) {
             ioe.printStackTrace();
         }
         return new MockResponse().setBody(buffer);
