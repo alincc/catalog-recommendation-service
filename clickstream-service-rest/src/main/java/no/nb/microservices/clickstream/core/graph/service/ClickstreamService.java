@@ -28,14 +28,25 @@ public class ClickstreamService implements IClickstreamService {
     }
 
     public void addActionItem(ActionItem actionItem) {
-        Item item = itemRepository.save(new Item(actionItem.getItemId(), actionItem.getMediatype()));
+        Item item = itemRepository.findByItemId(actionItem.getItemId());
+        if (item == null) {
+            item = itemRepository.save(new Item(actionItem.getItemId(), actionItem.getMediatype()));
+        }
 
-        Session session = new Session(actionItem.getSessionId());
-        session.addVisit(item);
-        sessionRepository.save(session);
+        Session session = sessionRepository.findBySessionId(actionItem.getSessionId());
+        if (session == null) {
+            session = sessionRepository.save(new Session(actionItem.getSessionId()));
+        }
 
-        User user = new User(actionItem.getUserId());
+        User user = userRepository.findByUserId(actionItem.getUserId());
+        if (user == null) {
+            user = userRepository.save(new User(actionItem.getUserId()));
+        }
+
+        session.addAction(item, actionItem.getAction());
+        session.addUser(user);
         user.addSession(session);
+
         userRepository.save(user);
     }
 

@@ -5,19 +5,20 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
 import org.neo4j.ogm.annotation.Relationship;
 
+import java.util.HashSet;
 import java.util.Set;
 
-@NodeEntity(label = "User")
+@NodeEntity
 public class User {
 
     @GraphId
-    private long id;
+    private Long id;
 
     @Property
     private String userId;
 
     @Relationship(type = "CREATED", direction = Relationship.OUTGOING)
-    private Set<Session> sessionNodes;
+    private Set<Session> sessionNodes = new HashSet<>();
 
     protected User() {
     }

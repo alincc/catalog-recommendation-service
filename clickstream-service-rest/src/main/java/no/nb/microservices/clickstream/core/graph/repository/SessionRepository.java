@@ -5,7 +5,7 @@ import org.springframework.data.neo4j.repository.GraphRepository;
 
 public interface SessionRepository extends GraphRepository<Session> {
 
-//    Session findBySessionId(String sessionId);
+    Session findBySessionId(String sessionId);
 
 //    @Query("MATCH ( user:User { sessionId: {0}} )-[r:VISITED]->(url:Url) RETURN url.value AS value, url.sesamid AS sesamid, url.mediatype AS mediatype ORDER BY r.timestamp ASC")
 //    List<NbUrl> getClickstream(String sessionId);

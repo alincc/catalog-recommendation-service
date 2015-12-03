@@ -6,13 +6,15 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
 import org.neo4j.ogm.annotation.Relationship;
 
+import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
-@NodeEntity(label="Item")
+@NodeEntity
 public class Item {
 
     @GraphId
-    private long id;
+    private Long id;
 
     @Property
     private String itemId;
@@ -21,9 +23,9 @@ public class Item {
     private String mediatype;
 
     @Relationship(type = "VISITED", direction = Relationship.INCOMING)
-    private Set<Visited> visitors;
+    private Set<Visited> visitors = new HashSet<>();
 
-    protected Item() {
+    public Item() {
     }
 
     public Item(String itemId, String mediatype) {
@@ -32,38 +34,6 @@ public class Item {
     }
 
     public void addVisitor(Session sessionNode) {
-        visitors.add(new Visited(sessionNode, this));
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
-    }
-
-    public String getMediatype() {
-        return mediatype;
-    }
-
-    public void setMediatype(String mediatype) {
-        this.mediatype = mediatype;
-    }
-
-    public Set<Visited> getVisitors() {
-        return visitors;
-    }
-
-    public void setVisitors(Set<Visited> visitors) {
-        this.visitors = visitors;
+        visitors.add(new Visited(sessionNode, this, new Date()));
     }
 }

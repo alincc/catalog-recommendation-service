@@ -1,27 +1,37 @@
 package no.nb.microservices.clickstream.core.graph.model.node;
 
+import no.nb.microservices.clickstream.core.graph.model.relation.Downloaded;
+import no.nb.microservices.clickstream.core.graph.model.relation.Liked;
 import no.nb.microservices.clickstream.core.graph.model.relation.Visited;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
 import org.neo4j.ogm.annotation.Relationship;
 
+import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
-@NodeEntity(label = "Session")
+@NodeEntity
 public class Session {
 
     @GraphId
-    private long id;
+    private Long id;
 
     @Property
     private String sessionId;
 
     @Relationship(type = "VISITED", direction = Relationship.OUTGOING)
-    private Set<Visited> visits;
+    private Set<Visited> visits = new HashSet<>();
+
+    @Relationship(type = "DOWNLOADED", direction = Relationship.OUTGOING)
+    private Set<Downloaded> downloads = new HashSet<>();
+
+    @Relationship(type = "LIKED", direction = Relationship.OUTGOING)
+    private Set<Liked> likes = new HashSet<>();
 
     @Relationship(type = "CREATED", direction = Relationship.INCOMING)
-    private Set<User> userNodes;
+    private Set<User> userNodes = new HashSet<>();
 
     protected Session() {
     }
@@ -34,39 +44,16 @@ public class Session {
         userNodes.add(user);
     }
 
-    public void addVisit(Item itemNode) {
-        visits.add(new Visited(this, itemNode));
-    }
+    public void addAction(Item itemNode, String action) {
+        if ("DOWNLOADED".equalsIgnoreCase(action)) {
+            downloads.add(new Downloaded(this, itemNode, new Date()));
+        }
+        else if ("LIKED".equalsIgnoreCase(action)) {
+            likes.add(new Liked(this, itemNode, new Date()));
+        }
+        else {
+            visits.add(new Visited(this, itemNode, new Date()));
+        }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
-
-    public Set<Visited> getVisits() {
-        return visits;
-    }
-
-    public void setVisits(Set<Visited> visits) {
-        this.visits = visits;
-    }
-
-    public Set<User> getUserNodes() {
-        return userNodes;
-    }
-
-    public void setUserNodes(Set<User> userNodes) {
-        this.userNodes = userNodes;
     }
 }

@@ -7,14 +7,14 @@ import org.neo4j.ogm.annotation.RelationshipEntity;
 
 import java.util.Date;
 
-@RelationshipEntity(type = "VISITED")
-public class Visited extends AbstractItemAction {
+@RelationshipEntity(type = "LIKES")
+public class Liked extends AbstractItemAction {
 
-    public Visited() {
+    public Liked() {
         super();
     }
 
-    public Visited(Session session, Item item, Date timestamp) {
+    public Liked(Session session, Item item, Date timestamp) {
         super(session, item, timestamp);
     }
 }
