@@ -1,16 +1,15 @@
 package no.nb.microservices.clickstream.core.graph.service;
 
-import no.nb.microservices.clickstream.core.graph.model.node.Item;
-import no.nb.microservices.clickstream.core.graph.model.node.Session;
-import no.nb.microservices.clickstream.core.graph.model.node.User;
-import no.nb.microservices.clickstream.core.graph.repository.ItemRepository;
-import no.nb.microservices.clickstream.core.graph.repository.SessionRepository;
-import no.nb.microservices.clickstream.core.graph.repository.UserRepository;
+import no.nb.microservices.clickstream.core.graph.model.node.*;
+import no.nb.microservices.clickstream.core.graph.repository.*;
 import no.nb.microservices.clickstream.model.ActionItem;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
 
 @Service
 public class ClickstreamService implements IClickstreamService {
@@ -19,32 +18,53 @@ public class ClickstreamService implements IClickstreamService {
     private final ItemRepository itemRepository;
     private final SessionRepository sessionRepository;
     private final UserRepository userRepository;
+    private final SearchRepository searchRepository;
+    private final LocationRepository locationRepository;
+    private final PublisherRepository publisherRepository;
 
     @Autowired
-    public ClickstreamService(ItemRepository itemRepository, SessionRepository sessionRepository, UserRepository userRepository) {
+    public ClickstreamService(ItemRepository itemRepository, SessionRepository sessionRepository, UserRepository userRepository, SearchRepository searchRepository, LocationRepository locationRepository, PublisherRepository publisherRepository) {
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
         this.sessionRepository = sessionRepository;
+        this.searchRepository = searchRepository;
+        this.locationRepository = locationRepository;
+        this.publisherRepository = publisherRepository;
     }
 
     public void addActionItem(ActionItem actionItem) {
-        Item item = itemRepository.findByItemId(actionItem.getItemId());
-        if (item == null) {
-            item = itemRepository.save(new Item(actionItem.getItemId(), actionItem.getMediatype()));
+        Item item = itemRepository.merge(new Item(actionItem.getItemId(), actionItem.getMediatype(), Arrays.asList("Krim", "Barn", "Grøsser")));
+        Session session = sessionRepository.merge(new Session(actionItem.getSessionId()));
+        User user = userRepository.merge(new User(actionItem.getUserId()));
+
+        if (!StringUtils.isEmpty(actionItem.getQuery())) {
+            Search search = searchRepository.merge(new Search(actionItem.getQuery()));
+            session.addSearch(search);
+            search.addAction(item, actionItem.getAction());
+        }
+        else {
+            session.addAction(item, actionItem.getAction());
         }
 
-        Session session = sessionRepository.findBySessionId(actionItem.getSessionId());
-        if (session == null) {
-            session = sessionRepository.save(new Session(actionItem.getSessionId()));
+        if (actionItem.getSessionLocation() != null) {
+            Location location = locationRepository.merge(new Location(
+                    actionItem.getSessionLocation().getMunicipality(),
+                    actionItem.getSessionLocation().getCounty()));
+            session.setLocation(location);
         }
 
-        User user = userRepository.findByUserId(actionItem.getUserId());
-        if (user == null) {
-            user = userRepository.save(new User(actionItem.getUserId()));
+        if (actionItem.getItemLocation() != null) {
+            Location location = locationRepository.merge(new Location(
+                    actionItem.getItemLocation().getMunicipality(),
+                    actionItem.getItemLocation().getCounty()));
+            item.setLocation(location);
         }
 
-        session.addAction(item, actionItem.getAction());
-        session.addUser(user);
+        if (!StringUtils.isEmpty(actionItem.getPublisher())) {
+            Publisher publisher = publisherRepository.merge(new Publisher(actionItem.getPublisher()));
+            item.setPublisher(publisher);
+        }
+
         user.addSession(session);
 
         userRepository.save(user);

@@ -6,34 +6,48 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
 import org.neo4j.ogm.annotation.Relationship;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @NodeEntity
 public class Item {
 
-    @GraphId
     private Long id;
-
-    @Property
     private String itemId;
-
-    @Property
     private String mediatype;
+    private Collection<String> topics;
 
-    @Relationship(type = "VISITED", direction = Relationship.INCOMING)
-    private Set<Visited> visitors = new HashSet<>();
+    @Relationship(type = "HAS_LOCATION", direction = Relationship.OUTGOING)
+    private Location location;
 
-    public Item() {
+    @Relationship(type = "PUBLISHED_BY", direction = Relationship.OUTGOING)
+    private Publisher publisher;
+
+    protected Item() {
     }
 
-    public Item(String itemId, String mediatype) {
+    public Item(String itemId, String mediatype, Collection<String> topics) {
         this.itemId = itemId;
         this.mediatype = mediatype;
+        this.topics = topics;
     }
 
-    public void addVisitor(Session sessionNode) {
-        visitors.add(new Visited(sessionNode, this, new Date()));
+    public String getMediatype() {
+        return mediatype;
+    }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public Collection<String> getTopics() {
+        return topics;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 }

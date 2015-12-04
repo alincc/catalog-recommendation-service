@@ -1,11 +1,16 @@
 package no.nb.microservices.clickstream.core.graph.repository;
 
+import no.nb.microservices.clickstream.core.graph.model.node.Search;
 import no.nb.microservices.clickstream.core.graph.model.node.Session;
+import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
 public interface SessionRepository extends GraphRepository<Session> {
 
     Session findBySessionId(String sessionId);
+
+    @Query("MERGE (s:Session { sessionId: {0}.sessionId }) RETURN s")
+    Session merge(Session session);
 
 //    @Query("MATCH ( user:User { sessionId: {0}} )-[r:VISITED]->(url:Url) RETURN url.value AS value, url.sesamid AS sesamid, url.mediatype AS mediatype ORDER BY r.timestamp ASC")
 //    List<NbUrl> getClickstream(String sessionId);

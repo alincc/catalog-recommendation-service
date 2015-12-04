@@ -11,10 +11,7 @@ import java.util.Set;
 @NodeEntity
 public class User {
 
-    @GraphId
     private Long id;
-
-    @Property
     private String userId;
 
     @Relationship(type = "CREATED", direction = Relationship.OUTGOING)
@@ -29,5 +26,9 @@ public class User {
 
     public void addSession(Session session) {
         sessionNodes.add(session);
+    }
+
+    public String getUserId() {
+        return userId;
     }
 }
