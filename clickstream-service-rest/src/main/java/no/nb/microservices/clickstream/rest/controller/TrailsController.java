@@ -84,7 +84,7 @@ import java.util.List;
 //    @RequestMapping(value = "/{id}/activities", method = RequestMethod.POST)
 //    public ResponseEntity<Activity> addActivity(@RequestBody Activity activity) {
 //        // No input validation here, OK since cypher injections are avoided with parameterized queries
-//        Activity addedActivity = clickstreamService.addActivity(activity.getSessionId(), activity.getUrl(), activity.getSesamid(), activity.getMediatype());
+//        Activity addedActivity = clickstreamService.addActivity(activity.getSessionId(), activity.getUrl(), activity.getSesamid(), activity.getMediaType());
 //        if (addedActivity != null) {
 //            return new ResponseEntity<Activity>(addedActivity, HttpStatus.CREATED);
 //        }

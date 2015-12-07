@@ -10,7 +10,7 @@ public interface ItemRepository extends GraphRepository<Item> {
 
     Item findByItemId(String itemId);
 
-    @Query("MERGE (i:Item { itemId: {0}.itemId, mediatype: {0}.mediatype, topics: {0}.topics }) RETURN i")
+    @Query("MERGE (i:Item { itemId: {0}.itemId, mediaType: {0}.mediaType, topics: {0}.topics }) RETURN i")
     Item merge(Item item);
 //
 //    List<Item> findAllByMediatype(String mediatype);

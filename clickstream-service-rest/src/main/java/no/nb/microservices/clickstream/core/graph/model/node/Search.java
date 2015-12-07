@@ -1,15 +1,8 @@
 package no.nb.microservices.clickstream.core.graph.model.node;
 
-import no.nb.microservices.clickstream.core.graph.model.relation.CreatedSearch;
-import no.nb.microservices.clickstream.core.graph.model.relation.Downloaded;
-import no.nb.microservices.clickstream.core.graph.model.relation.Liked;
-import no.nb.microservices.clickstream.core.graph.model.relation.Visited;
-import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Property;
 import org.neo4j.ogm.annotation.Relationship;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 

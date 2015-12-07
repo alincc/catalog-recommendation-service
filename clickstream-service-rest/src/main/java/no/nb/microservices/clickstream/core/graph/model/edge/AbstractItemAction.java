@@ -1,11 +1,10 @@
-package no.nb.microservices.clickstream.core.graph.model.relation;
+package no.nb.microservices.clickstream.core.graph.model.edge;
 
 
 import no.nb.microservices.clickstream.core.graph.model.node.Item;
 import no.nb.microservices.clickstream.core.graph.model.node.Session;
 import org.neo4j.ogm.annotation.EndNode;
 import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.RelationshipEntity;
 import org.neo4j.ogm.annotation.StartNode;
 import org.neo4j.ogm.annotation.typeconversion.DateLong;
 

@@ -2,14 +2,10 @@ package no.nb.microservices.clickstream.model;
 
 public class ActionItem {
     private User user;
-    private String sessionId;
+    private Item item;
+    private Session session;
     private String query;
     private String action;
-    private String itemId;
-    private String mediatype;
-    private String publisher;
-    private Location itemLocation;
-    private Location sessionLocation;
 
     public User getUser() {
         return user;
@@ -17,14 +13,6 @@ public class ActionItem {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
     }
 
     public String getQuery() {
@@ -35,22 +23,6 @@ public class ActionItem {
         this.query = query;
     }
 
-    public String getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
-    }
-
-    public String getMediatype() {
-        return mediatype;
-    }
-
-    public void setMediatype(String mediatype) {
-        this.mediatype = mediatype;
-    }
-
     public String getAction() {
         return action;
     }
@@ -59,27 +31,19 @@ public class ActionItem {
         this.action = action;
     }
 
-    public Location getItemLocation() {
-        return itemLocation;
+    public Session getSession() {
+        return session;
     }
 
-    public void setItemLocation(Location itemLocation) {
-        this.itemLocation = itemLocation;
+    public void setSession(Session session) {
+        this.session = session;
     }
 
-    public Location getSessionLocation() {
-        return sessionLocation;
+    public Item getItem() {
+        return item;
     }
 
-    public void setSessionLocation(Location sessionLocation) {
-        this.sessionLocation = sessionLocation;
-    }
-
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
+    public void setItem(Item item) {
+        this.item = item;
     }
 }

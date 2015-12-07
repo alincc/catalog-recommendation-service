@@ -1,24 +1,29 @@
 {
+  "action": "liked",
+  "query": "Folkemusikk fra Rana",
   "user": {
     "userId": "user1",
     "age": 28,
     "gender": "male",
     "interests": ["Ski", "Nintendo"]
   },
-  "sessionId": "session2",
-  "action": "liked",
-  "itemId": "URN:NBN:no-nb_digibok_2011063008143",
-  "mediatype": "film",
-  "publisher": "Andreas Bjørnådal",
-  "query": "Folkemusikk fra Rana",
-  "sessionLocation": {
-    "county": "Nordland",
-    "municipality": "Rana",
-    "country": "Norway"
+  "session": {
+    "sessionId": "session1",
+    "location": {
+      "county": "Nordland",
+      "municipality": "Rana",
+      "country": "Norway"
+    }
   },
-  "itemLocation": {
-    "county": "Nordland",
-    "municipality": "Rana",
-    "country": "Norway"
+  "item": {
+    "itemId": "URN:NBN:no-nb_digibok_2011063008143",
+    "mediaType": "film",
+    "publisher": "Andreas Bjørnådal",
+    "topics": ["Skiing", "Mountains"],
+    "location": {
+      "county": "Nordland",
+      "municipality": "Rana",
+      "country": "Norway"
+    }
   }
 }

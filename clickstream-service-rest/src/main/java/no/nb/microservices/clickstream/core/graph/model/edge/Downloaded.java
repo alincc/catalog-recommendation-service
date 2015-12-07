@@ -1,4 +1,4 @@
-package no.nb.microservices.clickstream.core.graph.model.relation;
+package no.nb.microservices.clickstream.core.graph.model.edge;
 
 
 import no.nb.microservices.clickstream.core.graph.model.node.Item;
@@ -7,14 +7,14 @@ import org.neo4j.ogm.annotation.RelationshipEntity;
 
 import java.util.Date;
 
-@RelationshipEntity(type = "VISITED")
-public class Visited extends AbstractItemAction {
+@RelationshipEntity(type = "DOWNLOADED")
+public class Downloaded extends AbstractItemAction {
 
-    public Visited() {
+    public Downloaded() {
         super();
     }
 
-    public Visited(Session session, Item item, Date timestamp) {
+    public Downloaded(Session session, Item item, Date timestamp) {
         super(session, item, timestamp);
     }
 }

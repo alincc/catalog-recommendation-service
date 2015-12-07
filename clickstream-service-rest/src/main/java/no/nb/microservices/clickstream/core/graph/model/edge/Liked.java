@@ -1,4 +1,4 @@
-package no.nb.microservices.clickstream.core.graph.model.relation;
+package no.nb.microservices.clickstream.core.graph.model.edge;
 
 
 import no.nb.microservices.clickstream.core.graph.model.node.Item;
