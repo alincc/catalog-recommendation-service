@@ -36,7 +36,7 @@
     <modules>
         <module>clickstream-service-model</module>
         <module>clickstream-service-rest</module>
-        <!--<module>clickstream-service-it</module>-->
+        <module>clickstream-service-it</module>
     </modules>
 
     <scm>
