@@ -85,7 +85,6 @@ Desktop.ini
 # Directories
 ######################
 /build/**
-/data/**
 /spring_loaded/**
 /deploy/**
 /clickstream-model/target

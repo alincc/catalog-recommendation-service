@@ -7,7 +7,7 @@ import org.springframework.data.neo4j.repository.GraphRepository;
 
 public interface LocationRepository extends GraphRepository<Location> {
 
-    @Query("MERGE (l:Location { municipality: {0}.municipality, county: {0}.county }) RETURN l")
+    @Query("MERGE (l:Location { municipality: {0}.municipality, county: {0}.county, country: {0}.country }) RETURN l")
     Location merge(Location location);
 
 }

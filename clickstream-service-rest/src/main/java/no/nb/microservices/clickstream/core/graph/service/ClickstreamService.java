@@ -3,6 +3,7 @@ package no.nb.microservices.clickstream.core.graph.service;
 import no.nb.microservices.clickstream.core.graph.model.node.*;
 import no.nb.microservices.clickstream.core.graph.repository.*;
 import no.nb.microservices.clickstream.model.ActionItem;
+import no.nb.microservices.clickstream.rest.assembler.UserBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,7 @@ public class ClickstreamService implements IClickstreamService {
     public void addActionItem(ActionItem actionItem) {
         Item item = itemRepository.merge(new Item(actionItem.getItemId(), actionItem.getMediatype(), Arrays.asList("Krim", "Barn", "Grøsser")));
         Session session = sessionRepository.merge(new Session(actionItem.getSessionId()));
-        User user = userRepository.merge(new User(actionItem.getUserId()));
+        User user = userRepository.merge(new UserBuilder(actionItem.getUser()).build());
 
         if (!StringUtils.isEmpty(actionItem.getQuery())) {
             Search search = searchRepository.merge(new Search(actionItem.getQuery()));
@@ -49,14 +50,16 @@ public class ClickstreamService implements IClickstreamService {
         if (actionItem.getSessionLocation() != null) {
             Location location = locationRepository.merge(new Location(
                     actionItem.getSessionLocation().getMunicipality(),
-                    actionItem.getSessionLocation().getCounty()));
+                    actionItem.getSessionLocation().getCounty(),
+                    actionItem.getSessionLocation().getCountry()));
             session.setLocation(location);
         }
 
         if (actionItem.getItemLocation() != null) {
             Location location = locationRepository.merge(new Location(
                     actionItem.getItemLocation().getMunicipality(),
-                    actionItem.getItemLocation().getCounty()));
+                    actionItem.getItemLocation().getCounty(),
+                    actionItem.getItemLocation().getCountry()));
             item.setLocation(location);
         }
 
