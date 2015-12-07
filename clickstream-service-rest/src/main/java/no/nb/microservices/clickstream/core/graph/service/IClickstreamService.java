@@ -1,6 +1,6 @@
 package no.nb.microservices.clickstream.core.graph.service;
 
-import no.nb.microservices.clickstream.model.ActionItem;
+import no.nb.microservices.clickstream.core.graph.model.action.ActionItem;
 
 public interface IClickstreamService {
     void addActionItem(ActionItem actionItem);

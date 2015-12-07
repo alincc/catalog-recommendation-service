@@ -1,11 +1,11 @@
 package no.nb.microservices.clickstream.core.graph.service;
 
+import no.nb.microservices.clickstream.core.graph.model.action.ActionItem;
 import no.nb.microservices.clickstream.core.graph.model.node.*;
 import no.nb.microservices.clickstream.core.graph.repository.*;
-import no.nb.microservices.clickstream.model.ActionItem;
-import no.nb.microservices.clickstream.rest.assembler.ItemBuilder;
-import no.nb.microservices.clickstream.rest.assembler.SessionBuilder;
-import no.nb.microservices.clickstream.rest.assembler.UserBuilder;
+import no.nb.microservices.clickstream.rest.assembler.ItemNodeBuilder;
+import no.nb.microservices.clickstream.rest.assembler.SessionNodeBuilder;
+import no.nb.microservices.clickstream.rest.assembler.UserNodeBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,9 +34,9 @@ public class ClickstreamService implements IClickstreamService {
     }
 
     public void addActionItem(ActionItem actionItem) {
-        Item item = itemRepository.merge(new ItemBuilder(actionItem.getItem()).build());
-        Session session = sessionRepository.merge(new SessionBuilder(actionItem.getSession()).build());
-        User user = userRepository.merge(new UserBuilder(actionItem.getUser()).build());
+        Item item = itemRepository.merge(actionItem.getItem());
+        Session session = sessionRepository.merge(actionItem.getSession());
+        User user = userRepository.merge(actionItem.getUser());
 
         if (!StringUtils.isEmpty(actionItem.getQuery())) {
             Search search = searchRepository.merge(new Search(actionItem.getQuery()));
@@ -48,23 +48,17 @@ public class ClickstreamService implements IClickstreamService {
         }
 
         if (actionItem.getSession().getLocation() != null) {
-            Location location = locationRepository.merge(new Location(
-                    actionItem.getSession().getLocation() .getMunicipality(),
-                    actionItem.getSession().getLocation() .getCounty(),
-                    actionItem.getSession().getLocation() .getCountry()));
+            Location location = locationRepository.merge(actionItem.getSession().getLocation());
             session.setLocation(location);
         }
 
         if (actionItem.getItem().getLocation() != null) {
-            Location location = locationRepository.merge(new Location(
-                    actionItem.getItem().getLocation().getMunicipality(),
-                    actionItem.getItem().getLocation().getCounty(),
-                    actionItem.getItem().getLocation().getCountry()));
+            Location location = locationRepository.merge(actionItem.getItem().getLocation());
             item.setLocation(location);
         }
 
-        if (!StringUtils.isEmpty(actionItem.getItem().getPublisher())) {
-            Publisher publisher = publisherRepository.merge(new Publisher(actionItem.getItem().getPublisher()));
+        if ((actionItem.getItem().getPublisher() != null)) {
+            Publisher publisher = publisherRepository.merge(actionItem.getItem().getPublisher());
             item.setPublisher(publisher);
         }
 

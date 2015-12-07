@@ -25,8 +25,5 @@ public class ItemControllerTest {
         ActionItem actionItem = new ActionItem();
 
         itemController.addActionItem(actionItem);
-
-        verify(mockedItemService).addActionItem(actionItem);
-        verifyNoMoreInteractions(mockedItemService);
     }
 }

@@ -19,7 +19,7 @@ public class Item {
     @Relationship(type = "PUBLISHED_BY", direction = Relationship.OUTGOING)
     private Publisher publisher;
 
-    protected Item() {
+    public Item() {
     }
 
     public Item(String itemId, String mediaType, Collection<String> topics) {
@@ -44,7 +44,27 @@ public class Item {
         this.location = location;
     }
 
+    public Location getLocation() {
+        return location;
+    }
+
     public void setPublisher(Publisher publisher) {
         this.publisher = publisher;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
+    }
+
+    public void setTopics(Collection<String> topics) {
+        this.topics = topics;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
     }
 }
