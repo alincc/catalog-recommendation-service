@@ -1,4 +1,4 @@
-package no.nb.microservices.clickstream.rest.controller;
+package no.nb.microservices.clickstream.core.graph.service;
 
 import no.nb.microservices.clickstream.core.graph.model.node.Item;
 import no.nb.microservices.clickstream.core.graph.repository.*;

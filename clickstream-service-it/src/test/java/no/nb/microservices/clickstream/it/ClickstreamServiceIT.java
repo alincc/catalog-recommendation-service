@@ -58,7 +58,7 @@ public class ClickstreamServiceIT {
     @Test
     @Ignore("No embedded neo4j config - needs local neo4j running")
     public void whenUserHasVisitedOneItemThenOneItemShouldHaveBeenSavedToUser() throws Exception {
-        clickstreamService.addActionItem(createActionItem("item1"));
+//        clickstreamService.addActionItem(createActionItem("item1"));
 
         assertThat(itemRepository.count(), is(1L));
         assertThat(sessionRepository.count(), is(1L));
@@ -71,8 +71,8 @@ public class ClickstreamServiceIT {
     @Test
     @Ignore("No embedded neo4j config - needs local neo4j running")
     public void whenUserHasVisitedTwoItemsThenTwoItemsShouldHaveBeenSavedOnSameUser() throws Exception {
-        clickstreamService.addActionItem(createActionItem("item1"));
-        clickstreamService.addActionItem(createActionItem("item2"));
+//        clickstreamService.addActionItem(createActionItem("item1"));
+//        clickstreamService.addActionItem(createActionItem("item2"));
 
 
         assertThat(itemRepository.count(), is(2L));
