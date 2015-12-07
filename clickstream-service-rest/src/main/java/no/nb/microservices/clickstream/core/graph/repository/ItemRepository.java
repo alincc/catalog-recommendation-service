@@ -4,8 +4,6 @@ import no.nb.microservices.clickstream.core.graph.model.node.Item;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
-import java.util.List;
-
 public interface ItemRepository extends GraphRepository<Item> {
 
     Item findByItemId(String itemId);

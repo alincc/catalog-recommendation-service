@@ -46,18 +46,15 @@ public class Session {
     public void addAction(Item itemNode, String action) {
         if ("DOWNLOADED".equalsIgnoreCase(action)) {
             downloads.add(new Downloaded(this, itemNode, new Date()));
-        }
-        else if ("LIKED".equalsIgnoreCase(action)) {
+        } else if ("LIKED".equalsIgnoreCase(action)) {
             likes.add(new Liked(this, itemNode, new Date()));
-        }
-        else {
+        } else {
             visits.add(new Visited(this, itemNode, new Date()));
         }
 
     }
 
     public void addSearch(Search search) {
-        //searches.add(new CreatedSearch(this, search, new Date()));
         searches.add(search);
     }
 
@@ -65,11 +62,11 @@ public class Session {
         return sessionId;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
     public Location getLocation() {
         return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

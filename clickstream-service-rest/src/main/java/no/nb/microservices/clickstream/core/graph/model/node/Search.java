@@ -31,11 +31,9 @@ public class Search {
     public void addAction(Item item, String action) {
         if ("DOWNLOADED".equalsIgnoreCase(action)) {
             downloads.add(item);
-        }
-        else if ("LIKED".equalsIgnoreCase(action)) {
+        } else if ("LIKED".equalsIgnoreCase(action)) {
             likes.add(item);
-        }
-        else {
+        } else {
             visits.add(item);
         }
     }

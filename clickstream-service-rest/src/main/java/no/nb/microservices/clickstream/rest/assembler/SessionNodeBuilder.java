@@ -2,7 +2,6 @@ package no.nb.microservices.clickstream.rest.assembler;
 
 import no.nb.microservices.clickstream.core.graph.model.node.Location;
 import no.nb.microservices.clickstream.core.graph.model.node.Session;
-import no.nb.microservices.clickstream.model.Item;
 
 public class SessionNodeBuilder {
 

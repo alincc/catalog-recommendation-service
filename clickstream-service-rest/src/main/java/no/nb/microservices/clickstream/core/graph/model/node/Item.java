@@ -3,7 +3,7 @@ package no.nb.microservices.clickstream.core.graph.model.node;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
-import java.util.*;
+import java.util.Collection;
 
 @NodeEntity
 public class Item {
@@ -32,39 +32,39 @@ public class Item {
         return mediaType;
     }
 
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
+    }
+
     public String getItemId() {
         return itemId;
-    }
-
-    public Collection<String> getTopics() {
-        return topics;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setPublisher(Publisher publisher) {
-        this.publisher = publisher;
     }
 
     public void setItemId(String itemId) {
         this.itemId = itemId;
     }
 
-    public void setMediaType(String mediaType) {
-        this.mediaType = mediaType;
+    public Collection<String> getTopics() {
+        return topics;
     }
 
     public void setTopics(Collection<String> topics) {
         this.topics = topics;
     }
 
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     public Publisher getPublisher() {
         return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 }

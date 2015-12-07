@@ -3,9 +3,6 @@ package no.nb.microservices.clickstream.core.graph.service;
 import no.nb.microservices.clickstream.core.graph.model.action.ActionItem;
 import no.nb.microservices.clickstream.core.graph.model.node.*;
 import no.nb.microservices.clickstream.core.graph.repository.*;
-import no.nb.microservices.clickstream.rest.assembler.ItemNodeBuilder;
-import no.nb.microservices.clickstream.rest.assembler.SessionNodeBuilder;
-import no.nb.microservices.clickstream.rest.assembler.UserNodeBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,8 +39,7 @@ public class ClickstreamService implements IClickstreamService {
             Search search = searchRepository.merge(new Search(actionItem.getQuery()));
             session.addSearch(search);
             search.addAction(item, actionItem.getAction());
-        }
-        else {
+        } else {
             session.addAction(item, actionItem.getAction());
         }
 

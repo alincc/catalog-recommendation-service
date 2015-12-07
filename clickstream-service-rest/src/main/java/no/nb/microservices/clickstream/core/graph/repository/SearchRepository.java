@@ -1,6 +1,5 @@
 package no.nb.microservices.clickstream.core.graph.repository;
 
-import no.nb.microservices.clickstream.core.graph.model.node.Item;
 import no.nb.microservices.clickstream.core.graph.model.node.Search;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;

@@ -1,16 +1,6 @@
 package no.nb.microservices.clickstream.rest.controller;
 
-import no.nb.microservices.clickstream.core.graph.service.IClickstreamService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 //import org.springframework.hateoas.PagedResources;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 //@RestController
 //@RequestMapping("/trails")

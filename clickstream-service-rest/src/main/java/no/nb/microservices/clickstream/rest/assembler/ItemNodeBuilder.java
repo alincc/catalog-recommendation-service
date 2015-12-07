@@ -1,8 +1,8 @@
 package no.nb.microservices.clickstream.rest.assembler;
 
 import no.nb.microservices.clickstream.core.graph.model.node.Item;
-import no.nb.microservices.clickstream.core.graph.model.node.Publisher;
 import no.nb.microservices.clickstream.core.graph.model.node.Location;
+import no.nb.microservices.clickstream.core.graph.model.node.Publisher;
 
 import java.util.Collection;
 
