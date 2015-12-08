@@ -1,8 +1,8 @@
 package no.nb.microservices.clickstream.core.graph.model.edge;
 
 
-import no.nb.microservices.clickstream.core.graph.model.node.Item;
-import no.nb.microservices.clickstream.core.graph.model.node.Session;
+import no.nb.microservices.clickstream.core.graph.model.node.ItemNode;
+import no.nb.microservices.clickstream.core.graph.model.node.SessionNode;
 import org.neo4j.ogm.annotation.EndNode;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.StartNode;
@@ -16,10 +16,10 @@ public abstract class AbstractItemAction {
     private Long id;
 
     @StartNode
-    private Session session;
+    private SessionNode session;
 
     @EndNode
-    private Item item;
+    private ItemNode item;
 
     @DateLong
     private Date timestamp;
@@ -28,7 +28,7 @@ public abstract class AbstractItemAction {
 
     }
 
-    public AbstractItemAction(Session session, Item item, Date timestamp) {
+    public AbstractItemAction(SessionNode session, ItemNode item, Date timestamp) {
         this.session = session;
         this.item = item;
         this.timestamp = timestamp;

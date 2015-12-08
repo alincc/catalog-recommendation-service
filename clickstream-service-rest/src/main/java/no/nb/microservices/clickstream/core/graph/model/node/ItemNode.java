@@ -5,8 +5,8 @@ import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.Collection;
 
-@NodeEntity
-public class Item {
+@NodeEntity(label = "Item")
+public class ItemNode {
 
     private Long id;
     private String itemId;
@@ -14,15 +14,19 @@ public class Item {
     private Collection<String> topics;
 
     @Relationship(type = "HAS_LOCATION", direction = Relationship.OUTGOING)
-    private Location location;
+    private LocationNode location;
 
     @Relationship(type = "PUBLISHED_BY", direction = Relationship.OUTGOING)
-    private Publisher publisher;
+    private PublisherNode publisher;
 
-    public Item() {
+    public ItemNode() {
     }
 
-    public Item(String itemId, String mediaType, Collection<String> topics) {
+    public ItemNode(String itemId) {
+        this.itemId = itemId;
+    }
+
+    public ItemNode(String itemId, String mediaType, Collection<String> topics) {
         this.itemId = itemId;
         this.mediaType = mediaType;
         this.topics = topics;
@@ -52,19 +56,19 @@ public class Item {
         this.topics = topics;
     }
 
-    public Location getLocation() {
+    public LocationNode getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(LocationNode location) {
         this.location = location;
     }
 
-    public Publisher getPublisher() {
+    public PublisherNode getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(Publisher publisher) {
+    public void setPublisher(PublisherNode publisher) {
         this.publisher = publisher;
     }
 }

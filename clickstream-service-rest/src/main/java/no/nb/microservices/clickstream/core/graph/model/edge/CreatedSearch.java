@@ -1,8 +1,8 @@
 package no.nb.microservices.clickstream.core.graph.model.edge;
 
 
-import no.nb.microservices.clickstream.core.graph.model.node.Search;
-import no.nb.microservices.clickstream.core.graph.model.node.Session;
+import no.nb.microservices.clickstream.core.graph.model.node.SearchNode;
+import no.nb.microservices.clickstream.core.graph.model.node.SessionNode;
 import org.neo4j.ogm.annotation.EndNode;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.RelationshipEntity;
@@ -18,10 +18,10 @@ public class CreatedSearch {
     private Long id;
 
     @StartNode
-    private Session session;
+    private SessionNode session;
 
     @EndNode
-    private Search search;
+    private SearchNode search;
 
     @DateLong
     private Date timestamp;
@@ -30,7 +30,7 @@ public class CreatedSearch {
 
     }
 
-    public CreatedSearch(Session session, Search search, Date timestamp) {
+    public CreatedSearch(SessionNode session, SearchNode search, Date timestamp) {
         this.session = session;
         this.search = search;
         this.timestamp = timestamp;

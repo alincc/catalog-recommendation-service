@@ -1,13 +1,16 @@
 package no.nb.microservices.clickstream.core.graph.repository;
 
 import no.nb.microservices.clickstream.core.graph.model.node.SearchNode;
+import no.nb.microservices.clickstream.core.graph.model.node.SearchQueryNode;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
-public interface SearchRepository extends GraphRepository<SearchNode> {
+public interface SearchQueryRepository extends GraphRepository<SearchQueryNode> {
 
-    @Query("MATCH (:Session{sessionId:{1})--(search:Search)-[:HAS_QUERY]->(:SearchQuery{query: {0}}) RETURN search")
-    SearchNode findSearchByQuery(String query, String sessionId);
+    SearchQueryNode findByQuery(String query);
+
+    @Query("MERGE (s:SearchQuery { query: {0}.query }) RETURN s")
+    SearchQueryNode merge(SearchQueryNode search);
 //
 //    List<Item> findAllByMediatype(String mediatype);
 

@@ -2,10 +2,10 @@ package no.nb.microservices.clickstream.model;
 
 public class ActionItem {
     private User user;
-    private Item item;
     private Session session;
     private String query;
     private String action;
+    private String itemId;
 
     public User getUser() {
         return user;
@@ -39,11 +39,11 @@ public class ActionItem {
         this.session = session;
     }
 
-    public Item getItem() {
-        return item;
+    public String getItemId() {
+        return itemId;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 }

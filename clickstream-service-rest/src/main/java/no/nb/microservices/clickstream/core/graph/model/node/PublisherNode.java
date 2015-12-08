@@ -3,18 +3,18 @@ package no.nb.microservices.clickstream.core.graph.model.node;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
-@NodeEntity
-public class Publisher {
+@NodeEntity(label = "Publisher")
+public class PublisherNode {
     private Long id;
     private String name;
 
     @Relationship(type = "HAS_LOCATION", direction = Relationship.OUTGOING)
-    private Location location;
+    private LocationNode location;
 
-    public Publisher() {
+    public PublisherNode() {
     }
 
-    public Publisher(String name) {
+    public PublisherNode(String name) {
         this.name = name;
     }
 
@@ -22,7 +22,7 @@ public class Publisher {
         return name;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(LocationNode location) {
         this.location = location;
     }
 }

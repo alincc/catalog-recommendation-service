@@ -37,6 +37,8 @@ public class ClickstreamServiceIT {
     private LocationRepository locationRepository;
     @Autowired
     private PublisherRepository publisherRepository;
+    @Autowired
+    private SearchQueryRepository searchQueryRepository;
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -46,7 +48,7 @@ public class ClickstreamServiceIT {
     @Before
     public void setUp()  {
         clickstreamService = new ClickstreamService(itemRepository, sessionRepository, userRepository,
-                searchRepository, locationRepository, publisherRepository);
+                searchRepository, locationRepository, publisherRepository, searchQueryRepository);
     }
 
     @After

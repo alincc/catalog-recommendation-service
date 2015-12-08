@@ -1,12 +1,14 @@
 package no.nb.microservices.clickstream.core.graph.repository;
 
-import no.nb.microservices.clickstream.core.graph.model.node.Location;
+import no.nb.microservices.clickstream.core.graph.model.node.LocationNode;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
-public interface LocationRepository extends GraphRepository<Location> {
+public interface LocationRepository extends GraphRepository<LocationNode> {
+
+    LocationNode findByMunicipalityAndCounty(String municipality, String county);
 
     @Query("MERGE (l:Location { municipality: {0}.municipality, county: {0}.county, country: {0}.country }) RETURN l")
-    Location merge(Location location);
+    LocationNode merge(LocationNode location);
 
 }

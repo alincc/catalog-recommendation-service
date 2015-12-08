@@ -1,24 +1,17 @@
 package no.nb.microservices.clickstream.rest.assembler;
 
-import no.nb.microservices.clickstream.core.graph.model.node.Location;
-import no.nb.microservices.clickstream.core.graph.model.node.Session;
+import no.nb.microservices.clickstream.core.graph.model.node.SessionNode;
 
 public class SessionNodeBuilder {
 
-    private Session nodeSession;
+    private SessionNode nodeSession;
 
     public SessionNodeBuilder(no.nb.microservices.clickstream.model.Session session) {
-        this.nodeSession = new Session(
-                session.getSessionId(),
-                new Location(
-                        session.getLocation().getMunicipality(),
-                        session.getLocation().getCounty(),
-                        session.getLocation().getCountry())
-        );
+        this.nodeSession = new SessionNode(session.getSessionId());
 
     }
 
-    public Session build() {
+    public SessionNode build() {
         return nodeSession;
     }
 }

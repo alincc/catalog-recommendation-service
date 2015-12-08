@@ -1,60 +1,56 @@
 package no.nb.microservices.clickstream.core.graph.model.node;
 
-import no.nb.microservices.clickstream.core.graph.model.edge.Downloaded;
-import no.nb.microservices.clickstream.core.graph.model.edge.Liked;
-import no.nb.microservices.clickstream.core.graph.model.edge.Visited;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@NodeEntity
-public class Session {
+@NodeEntity(label = "Session")
+public class SessionNode {
 
     private Long id;
     private String sessionId;
 
     @Relationship(type = "VISITED", direction = Relationship.OUTGOING)
-    private Set<Visited> visits = new HashSet<>();
+    private Set<ItemNode> visits = new HashSet<>();
 
     @Relationship(type = "DOWNLOADED", direction = Relationship.OUTGOING)
-    private Set<Downloaded> downloads = new HashSet<>();
+    private Set<ItemNode> downloads = new HashSet<>();
 
     @Relationship(type = "LIKED", direction = Relationship.OUTGOING)
-    private Set<Liked> likes = new HashSet<>();
+    private Set<ItemNode> likes = new HashSet<>();
 
     @Relationship(type = "CREATED_SEARCH", direction = Relationship.OUTGOING)
-    private Set<Search> searches = new HashSet<>();
+    private Set<SearchNode> searches = new HashSet<>();
 
     @Relationship(type = "HAS_LOCATION", direction = Relationship.OUTGOING)
-    private Location location;
+    private LocationNode location;
 
-    protected Session() {
+    protected SessionNode() {
     }
 
-    public Session(String sessionId) {
+    public SessionNode(String sessionId) {
         this.sessionId = sessionId;
     }
 
-    public Session(String sessionId, Location location) {
+    public SessionNode(String sessionId, LocationNode location) {
         this.sessionId = sessionId;
         this.location = location;
     }
 
-    public void addAction(Item itemNode, String action) {
+    public void addAction(ItemNode itemNode, String action) {
         if ("DOWNLOADED".equalsIgnoreCase(action)) {
-            downloads.add(new Downloaded(this, itemNode, new Date()));
+            downloads.add(itemNode);
         } else if ("LIKED".equalsIgnoreCase(action)) {
-            likes.add(new Liked(this, itemNode, new Date()));
+            likes.add(itemNode);
         } else {
-            visits.add(new Visited(this, itemNode, new Date()));
+            visits.add(itemNode);
         }
 
     }
 
-    public void addSearch(Search search) {
+    public void addSearch(SearchNode search) {
         searches.add(search);
     }
 
@@ -62,11 +58,19 @@ public class Session {
         return sessionId;
     }
 
-    public Location getLocation() {
+    public LocationNode getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(LocationNode location) {
         this.location = location;
+    }
+
+    public Set<SearchNode> getSearches() {
+        return searches;
+    }
+
+    public void setSearches(Set<SearchNode> searches) {
+        this.searches = searches;
     }
 }

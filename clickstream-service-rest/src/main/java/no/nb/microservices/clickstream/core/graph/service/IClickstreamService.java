@@ -1,9 +1,13 @@
 package no.nb.microservices.clickstream.core.graph.service;
 
-import no.nb.microservices.clickstream.core.graph.model.action.ActionItem;
+import no.nb.microservices.clickstream.core.graph.model.node.ItemNode;
+import no.nb.microservices.clickstream.model.ActionItem;
+import no.nb.microservices.clickstream.model.Item;
 
 public interface IClickstreamService {
     void addActionItem(ActionItem actionItem);
+
+    void addItem(Item item);
 
 //    Activity addActivity(String sessionId, String url, String sesamid, String mediatype);
 //

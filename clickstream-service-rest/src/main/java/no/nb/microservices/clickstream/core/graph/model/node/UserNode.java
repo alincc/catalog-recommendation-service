@@ -7,8 +7,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-@NodeEntity
-public class User {
+@NodeEntity(label = "User")
+public class UserNode {
 
     private Long id;
     private String userId;
@@ -17,23 +17,23 @@ public class User {
     private Collection<String> interests;
 
     @Relationship(type = "CREATED", direction = Relationship.OUTGOING)
-    private Set<Session> sessionNodes = new HashSet<>();
+    private Set<SessionNode> sessionNodes = new HashSet<>();
 
-    protected User() {
+    protected UserNode() {
     }
 
-    public User(String userId) {
+    public UserNode(String userId) {
         this.userId = userId;
     }
 
-    public User(String userId, int age, String gender, Collection<String> interests) {
+    public UserNode(String userId, int age, String gender, Collection<String> interests) {
         this.userId = userId;
         this.age = age;
         this.gender = gender;
         this.interests = interests;
     }
 
-    public void addSession(Session session) {
+    public void addSession(SessionNode session) {
         sessionNodes.add(session);
     }
 
@@ -51,5 +51,29 @@ public class User {
 
     public Collection<String> getInterests() {
         return interests;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setInterests(Collection<String> interests) {
+        this.interests = interests;
+    }
+
+    public Set<SessionNode> getSessionNodes() {
+        return sessionNodes;
+    }
+
+    public void setSessionNodes(Set<SessionNode> sessionNodes) {
+        this.sessionNodes = sessionNodes;
     }
 }

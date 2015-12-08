@@ -1,13 +1,20 @@
 package no.nb.microservices.clickstream.core.graph.service;
 
-import no.nb.microservices.clickstream.core.graph.model.action.ActionItem;
 import no.nb.microservices.clickstream.core.graph.model.node.*;
 import no.nb.microservices.clickstream.core.graph.repository.*;
-import org.apache.commons.lang3.StringUtils;
+import no.nb.microservices.clickstream.model.ActionItem;
+import no.nb.microservices.clickstream.model.Item;
+import no.nb.microservices.clickstream.rest.assembler.LocationNodeBuilder;
+import no.nb.microservices.clickstream.rest.assembler.SessionNodeBuilder;
+import no.nb.microservices.clickstream.rest.assembler.UserNodeBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import java.util.Optional;
 
 @Service
 public class ClickstreamService implements IClickstreamService {
@@ -19,48 +26,91 @@ public class ClickstreamService implements IClickstreamService {
     private final SearchRepository searchRepository;
     private final LocationRepository locationRepository;
     private final PublisherRepository publisherRepository;
+    private final SearchQueryRepository searchQueryRepository;
 
     @Autowired
-    public ClickstreamService(ItemRepository itemRepository, SessionRepository sessionRepository, UserRepository userRepository, SearchRepository searchRepository, LocationRepository locationRepository, PublisherRepository publisherRepository) {
+    public ClickstreamService(ItemRepository itemRepository, SessionRepository sessionRepository, UserRepository userRepository, SearchRepository searchRepository, LocationRepository locationRepository, PublisherRepository publisherRepository, SearchQueryRepository searchQueryRepository) {
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
         this.sessionRepository = sessionRepository;
         this.searchRepository = searchRepository;
         this.locationRepository = locationRepository;
         this.publisherRepository = publisherRepository;
+        this.searchQueryRepository = searchQueryRepository;
     }
 
+    @Transactional
     public void addActionItem(ActionItem actionItem) {
-        Item item = itemRepository.merge(actionItem.getItem());
-        Session session = sessionRepository.merge(actionItem.getSession());
-        User user = userRepository.merge(actionItem.getUser());
+        UserNode user = userRepository.merge(new UserNodeBuilder(actionItem.getUser()).build());
+
+        Optional<SessionNode> sessionOptional = user.getSessionNodes().stream().filter(q -> q.getSessionId().equalsIgnoreCase(actionItem.getSession().getSessionId())).findFirst();
+        SessionNode session = (sessionOptional.isPresent() ? sessionOptional.get() : sessionRepository.save(new SessionNodeBuilder(actionItem.getSession()).build()));
+
+        ItemNode item = itemRepository.findByItemId(actionItem.getItemId());
+        session.addAction(item, actionItem.getAction());
 
         if (!StringUtils.isEmpty(actionItem.getQuery())) {
-            Search search = searchRepository.merge(new Search(actionItem.getQuery()));
-            session.addSearch(search);
-            search.addAction(item, actionItem.getAction());
-        } else {
-            session.addAction(item, actionItem.getAction());
+            SearchNode searchNode = null;
+            for (SearchNode searchNodeTemp : session.getSearches()) {
+                if (searchNodeTemp.getSearchQuery().getQuery().equalsIgnoreCase(actionItem.getQuery())) {
+                    searchNode = searchNodeTemp;
+                    break;
+                }
+            }
+
+            if (searchNode == null) {
+                searchNode = new SearchNode();
+                SearchQueryNode searchQuery = searchQueryRepository.findByQuery(actionItem.getQuery());
+                if (searchQuery == null) {
+                    searchQuery = searchQueryRepository.save(new SearchQueryNode(actionItem.getQuery()));
+                }
+                searchNode.setSearchQuery(searchQuery);
+            }
+
+            session.addSearch(searchNode);
+            searchNode.addAction(item, actionItem.getAction());
         }
 
-        if (actionItem.getSession().getLocation() != null) {
-            Location location = locationRepository.merge(actionItem.getSession().getLocation());
-            session.setLocation(location);
-        }
+        if (actionItem.getSession().getLocation() != null && session.getLocation() == null) {
+            LocationNode location = locationRepository.findByMunicipalityAndCounty(actionItem.getSession().getLocation().getMunicipality(), actionItem.getSession().getLocation().getCounty());
 
-        if (actionItem.getItem().getLocation() != null) {
-            Location location = locationRepository.merge(actionItem.getItem().getLocation());
-            item.setLocation(location);
-        }
-
-        if ((actionItem.getItem().getPublisher() != null)) {
-            Publisher publisher = publisherRepository.merge(actionItem.getItem().getPublisher());
-            item.setPublisher(publisher);
+            if (location == null) {
+                // Adds new location
+                session.setLocation(new LocationNodeBuilder(actionItem.getSession().getLocation()).build());
+            }
+            else {
+                // Sets old location
+                session.setLocation(location);
+            }
         }
 
         user.addSession(session);
 
         userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void addItem(Item item) {
+        ItemNode itemNode = itemRepository.findByItemId(item.getItemId());
+        if (itemNode == null) {
+            itemNode = new ItemNode(item.getItemId(), item.getMediaType(), item.getTopics());
+            PublisherNode publisherNode = publisherRepository.findByName(item.getPublisher());
+            LocationNode locationNode = locationRepository.findByMunicipalityAndCounty(item.getLocation().getMunicipality(), item.getLocation().getCounty());
+
+            if (publisherNode == null) {
+                publisherNode = publisherRepository.save(new PublisherNode(item.getPublisher()));
+            }
+
+            if (locationNode == null) {
+                locationNode = locationRepository.save(new LocationNodeBuilder(item.getLocation()).build());
+            }
+
+            itemNode.setPublisher(publisherNode);
+            itemNode.setLocation(locationNode);
+
+            itemRepository.save(itemNode);
+        }
     }
 
 

@@ -1,15 +1,15 @@
 package no.nb.microservices.clickstream.core.graph.repository;
 
-import no.nb.microservices.clickstream.core.graph.model.node.Item;
+import no.nb.microservices.clickstream.core.graph.model.node.ItemNode;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
-public interface ItemRepository extends GraphRepository<Item> {
+public interface ItemRepository extends GraphRepository<ItemNode> {
 
-    Item findByItemId(String itemId);
+    ItemNode findByItemId(String itemId);
 
     @Query("MERGE (i:Item { itemId: {0}.itemId, mediaType: {0}.mediaType, topics: {0}.topics }) RETURN i")
-    Item merge(Item item);
+    ItemNode merge(ItemNode item);
 //
 //    List<Item> findAllByMediatype(String mediatype);
 

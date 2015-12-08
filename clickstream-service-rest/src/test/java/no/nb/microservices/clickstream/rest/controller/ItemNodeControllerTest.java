@@ -13,7 +13,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ItemControllerTest {
+public class ItemNodeControllerTest {
 
     @Mock
     private IClickstreamService mockedItemService;
