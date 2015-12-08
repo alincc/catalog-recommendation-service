@@ -41,51 +41,40 @@ public class ClickstreamService implements IClickstreamService {
 
     @Transactional
     public void addActionItem(ActionItem actionItem) {
+        // Finds user
         UserNode user = userRepository.merge(new UserNodeBuilder(actionItem.getUser()).build());
 
+        // Finds session
         Optional<SessionNode> sessionOptional = user.getSessionNodes().stream().filter(q -> q.getSessionId().equalsIgnoreCase(actionItem.getSession().getSessionId())).findFirst();
         SessionNode session = (sessionOptional.isPresent() ? sessionOptional.get() : sessionRepository.save(new SessionNodeBuilder(actionItem.getSession()).build()));
 
+        // Finds item and adds action
         ItemNode item = itemRepository.findByItemId(actionItem.getItemId());
         session.addAction(item, actionItem.getAction());
 
+        // Sets query
         if (!StringUtils.isEmpty(actionItem.getQuery())) {
-            SearchNode searchNode = null;
-            for (SearchNode searchNodeTemp : session.getSearches()) {
-                if (searchNodeTemp.getSearchQuery().getQuery().equalsIgnoreCase(actionItem.getQuery())) {
-                    searchNode = searchNodeTemp;
-                    break;
-                }
+            Optional<SearchNode> searchNodeOptional = session.getSearches().stream()
+                    .filter(q -> q.getSearchQuery().getQuery().equalsIgnoreCase(actionItem.getQuery())).findFirst();
+            SearchNode searchNode = (searchNodeOptional.isPresent()) ? searchNodeOptional.get() : new SearchNode();
+
+            SearchQueryNode searchQuery = searchQueryRepository.findByQuery(actionItem.getQuery());
+            if (searchQuery == null) {
+                searchQuery = searchQueryRepository.save(new SearchQueryNode(actionItem.getQuery()));
             }
 
-            if (searchNode == null) {
-                searchNode = new SearchNode();
-                SearchQueryNode searchQuery = searchQueryRepository.findByQuery(actionItem.getQuery());
-                if (searchQuery == null) {
-                    searchQuery = searchQueryRepository.save(new SearchQueryNode(actionItem.getQuery()));
-                }
-                searchNode.setSearchQuery(searchQuery);
-            }
-
+            searchNode.setSearchQuery(searchQuery);
             session.addSearch(searchNode);
             searchNode.addAction(item, actionItem.getAction());
         }
 
+        // Sets session location
         if (actionItem.getSession().getLocation() != null && session.getLocation() == null) {
             LocationNode location = locationRepository.findByMunicipalityAndCounty(actionItem.getSession().getLocation().getMunicipality(), actionItem.getSession().getLocation().getCounty());
-
-            if (location == null) {
-                // Adds new location
-                session.setLocation(new LocationNodeBuilder(actionItem.getSession().getLocation()).build());
-            }
-            else {
-                // Sets old location
-                session.setLocation(location);
-            }
+            session.setLocation((location == null) ? new LocationNodeBuilder(actionItem.getSession().getLocation()).build() : location);
         }
 
         user.addSession(session);
-
         userRepository.save(user);
     }
 
