@@ -12,8 +12,6 @@ endpoints:
 server:
   port: 8109
 
-spring:  
-
 eureka:
   instance:
     preferIpAddress: true
@@ -21,7 +19,7 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 
-clickstream:
+recommendation:
     neo4jDb: http://localhost:7474/db/data
 
 ---

@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "clickstream")
+@ConfigurationProperties(prefix = "recommendation")
 public class ApplicationSettings {
 
     private String neo4jDb;

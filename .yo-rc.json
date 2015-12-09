@@ -1,6 +1,6 @@
 {
   "generator-spring-microservice": {
-    "packageName": "no.nb.microservices.clickstream",
-    "packageFolder": "no/nb/microservices/clickstream"
+    "packageName": "no.nb.microservices.recommendation",
+    "packageFolder": "no/nb/microservices/recommendation"
   }
 }
