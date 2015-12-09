@@ -52,7 +52,7 @@ public class ClickstreamServiceTest {
 //        modelItem.setItemId("id1");
 //        modelItem.setMediaType("bøker");
 //        actionItem.setItem(modelItem);
-//        clickstreamService.addActionItem(actionItem);
+//        clickstreamService.addItemAction(actionItem);
     }
 
 }

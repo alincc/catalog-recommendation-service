@@ -1,6 +1,6 @@
 package no.nb.microservices.clickstream.model;
 
-public class ActionItem {
+public class ItemAction {
     private User user;
     private Session session;
     private String query;

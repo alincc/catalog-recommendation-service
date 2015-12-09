@@ -2,15 +2,8 @@ package no.nb.microservices.clickstream.it;
 
 import com.netflix.loadbalancer.BaseLoadBalancer;
 import com.netflix.loadbalancer.ILoadBalancer;
-import com.netflix.loadbalancer.Server;
-import com.squareup.okhttp.mockwebserver.Dispatcher;
-import com.squareup.okhttp.mockwebserver.MockResponse;
-import com.squareup.okhttp.mockwebserver.MockWebServer;
-import com.squareup.okhttp.mockwebserver.RecordedRequest;
 import no.nb.microservices.clickstream.Application;
 import no.nb.microservices.clickstream.model.*;
-import okio.Buffer;
-import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -24,20 +17,13 @@ import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
@@ -81,27 +67,27 @@ public class ItemControllerIT {
     @Ignore("No embedded neo4j config - needs local neo4j running")
     public void shouldAddActionItem() throws URISyntaxException {
         URI uri = new URI("http://localhost:" + port + "/item");
-        ActionItem body = createActionItem("item1");
-        HttpEntity<ActionItem> requestEntity = new HttpEntity<>(body);
+        ItemAction body = createActionItem("item1");
+        HttpEntity<ItemAction> requestEntity = new HttpEntity<>(body);
         ResponseEntity<Void> responseEntity = rest.postForEntity(uri, requestEntity, Void.class);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
-    private ActionItem createActionItem(String itemId) {
-        ActionItem actionItem = new ActionItem();
-        actionItem.setAction("VISITED");
-        actionItem.setQuery("action");
+    private ItemAction createActionItem(String itemId) {
+        ItemAction itemAction = new ItemAction();
+        itemAction.setAction("VISITED");
+        itemAction.setQuery("action");
 
         Item item = createItem(itemId);
-        actionItem.setItem(item);
+        itemAction.setItem(item);
 
         User user = createUser();
-        actionItem.setUser(user);
+        itemAction.setUser(user);
 
         Session session = createSession();
-        actionItem.setSession(session);
+        itemAction.setSession(session);
 
-        return actionItem;
+        return itemAction;
     }
 
     private Item createItem(String itemId) {

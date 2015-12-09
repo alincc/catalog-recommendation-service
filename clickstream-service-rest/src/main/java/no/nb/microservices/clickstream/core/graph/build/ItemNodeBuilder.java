@@ -1,4 +1,4 @@
-package no.nb.microservices.clickstream.rest.assembler;
+package no.nb.microservices.clickstream.core.graph.build;
 
 import no.nb.microservices.clickstream.core.graph.model.node.ItemNode;
 import no.nb.microservices.clickstream.core.graph.model.node.LocationNode;

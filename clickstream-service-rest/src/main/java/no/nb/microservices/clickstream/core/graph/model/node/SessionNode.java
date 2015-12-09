@@ -51,7 +51,9 @@ public class SessionNode {
     }
 
     public void addSearch(SearchNode search) {
-        searches.add(search);
+        if (search != null) {
+            searches.add(search);
+        }
     }
 
     public String getSessionId() {
