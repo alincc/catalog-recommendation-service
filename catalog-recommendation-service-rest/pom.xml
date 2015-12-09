@@ -8,14 +8,14 @@
     <name>catalog-recommendation-service-rest</name>
 
     <parent>
-        <groupId>no.nb.microservices.clickstream</groupId>
+        <groupId>no.nb.microservices.recommendation</groupId>
         <artifactId>catalog-recommendation-service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <start-class>no.nb.microservices.clickstream.Application</start-class>
+        <start-class>no.nb.microservices.recommendation.Application</start-class>
         <docker.image.prefix>nb</docker.image.prefix>
     </properties>
 
@@ -66,8 +66,8 @@
             <version>1.5.3-M1</version>
         </dependency>
         <dependency>
-            <groupId>no.nb.microservices.clickstream</groupId>
-            <artifactId>clickstream-service-model</artifactId>
+            <groupId>no.nb.microservices.recommendation</groupId>
+            <artifactId>catalog-recommendation-service-model</artifactId>
             <version>${project.version}</version>
         </dependency>
 

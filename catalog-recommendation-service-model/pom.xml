@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>no.nb.microservices.clickstream</groupId>
+        <groupId>no.nb.microservices.recommendation</groupId>
         <artifactId>catalog-recommendation-service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -12,8 +12,8 @@
 
     <dependencies>
         <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-hateoas</artifactId>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-hateoas</artifactId>-->
         <!--</dependency>-->
     </dependencies>
 </project>
