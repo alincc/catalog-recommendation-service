@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ClickstreamServiceTest {
+public class SimpleGraphInsertServiceTest {
 
     @Mock
     private ItemRepository itemRepository;
@@ -30,7 +30,7 @@ public class ClickstreamServiceTest {
     private PublisherRepository publisherRepository;
 
     @InjectMocks
-    private ClickstreamService clickstreamService;
+    private SimpleGraphInsertService clickstreamService;
 
     @Test
     @Ignore

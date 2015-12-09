@@ -1,6 +1,6 @@
 package no.nb.microservices.recommendation.rest.controller;
 
-import no.nb.microservices.recommendation.core.graph.service.IClickstreamService;
+import no.nb.microservices.recommendation.core.graph.service.GraphInsertService;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +12,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class ItemNodeControllerTest {
 
     @Mock
-    private IClickstreamService mockedItemService;
+    private GraphInsertService mockedItemService;
 
     @InjectMocks
     private ItemController itemController;

@@ -1,7 +1,7 @@
 info:
   app:
-    name: clickstream-service
-    description: clickstream
+    name: catalog-recommendation-service
+    description: Recommends catalog items to the user
 
 endpoints:
   restart:

@@ -16,9 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-public class ClickstreamService implements IClickstreamService {
+public class SimpleGraphInsertService implements GraphInsertService {
 
-    private final Logger log = LoggerFactory.getLogger(ClickstreamService.class);
+    private final Logger log = LoggerFactory.getLogger(SimpleGraphInsertService.class);
     private final ItemRepository itemRepository;
     private final SessionRepository sessionRepository;
     private final UserRepository userRepository;
@@ -28,7 +28,7 @@ public class ClickstreamService implements IClickstreamService {
     private final SearchQueryRepository searchQueryRepository;
 
     @Autowired
-    public ClickstreamService(ItemRepository itemRepository, SessionRepository sessionRepository, UserRepository userRepository, SearchRepository searchRepository, LocationRepository locationRepository, PublisherRepository publisherRepository, SearchQueryRepository searchQueryRepository) {
+    public SimpleGraphInsertService(ItemRepository itemRepository, SessionRepository sessionRepository, UserRepository userRepository, SearchRepository searchRepository, LocationRepository locationRepository, PublisherRepository publisherRepository, SearchQueryRepository searchQueryRepository) {
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
         this.sessionRepository = sessionRepository;
