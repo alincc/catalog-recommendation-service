@@ -3,13 +3,13 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>clickstream-service-rest</artifactId>
+    <artifactId>catalog-recommendation-service-rest</artifactId>
     <packaging>jar</packaging>
-    <name>clickstream-service-rest</name>
+    <name>catalog-recommendation-service-rest</name>
 
     <parent>
         <groupId>no.nb.microservices.clickstream</groupId>
-        <artifactId>clickstream-service</artifactId>
+        <artifactId>catalog-recommendation-service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 

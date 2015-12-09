@@ -2,7 +2,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>no.nb.microservices.clickstream</groupId>
-    <artifactId>clickstream-service</artifactId>
+    <artifactId>catalog-recommendation-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>Logs user behaviour</description>
@@ -34,9 +34,9 @@
     </dependencyManagement>
 
     <modules>
-        <module>clickstream-service-model</module>
-        <module>clickstream-service-rest</module>
-        <module>clickstream-service-it</module>
+        <module>catalog-recommendation-service-model</module>
+        <module>catalog-recommendation-service-rest</module>
+        <module>catalog-recommendation-service-it</module>
     </modules>
 
     <scm>
