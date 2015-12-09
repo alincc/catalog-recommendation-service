@@ -7,22 +7,30 @@ import no.nb.microservices.recommendation.model.Location;
 
 public class LocationNodeBuilder {
 
+    private Location location;
     private SessionNode sessionNode;
     private LocationNode locationNode;
     private LocationRepository locationRepository;
 
     public LocationNodeBuilder(Location location, LocationRepository locationRepository) {
         this.locationRepository = locationRepository;
-        this.locationNode = new LocationNode(location.getMunicipality(), location.getCounty(), location.getCountry());
+        this.location = location;
     }
 
     public LocationNodeBuilder(Location location, SessionNode sessionNode, LocationRepository locationRepository) {
         this.locationRepository = locationRepository;
+        this.location = location;
         this.sessionNode = sessionNode;
-        this.locationNode = new LocationNode(location.getMunicipality(), location.getCounty(), location.getCountry());
     }
 
     public LocationNode build() {
+        if (location == null) {
+            return null;
+        }
+        else {
+            this.locationNode = new LocationNode(location.getMunicipality(), location.getCounty(), location.getCountry());
+        }
+
         if (sessionNode != null) {
             if (locationNode != null && sessionNode.getLocation() == null) {
                 LocationNode location = locationRepository.findByMunicipalityAndCounty(locationNode.getMunicipality(), locationNode.getCounty());

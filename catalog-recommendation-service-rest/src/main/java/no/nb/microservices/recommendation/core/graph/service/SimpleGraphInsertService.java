@@ -2,6 +2,7 @@ package no.nb.microservices.recommendation.core.graph.service;
 
 import no.nb.microservices.recommendation.core.graph.build.*;
 import no.nb.microservices.recommendation.core.graph.model.node.ItemNode;
+import no.nb.microservices.recommendation.core.graph.model.node.LocationNode;
 import no.nb.microservices.recommendation.core.graph.model.node.SessionNode;
 import no.nb.microservices.recommendation.core.graph.model.node.UserNode;
 import no.nb.microservices.recommendation.core.graph.repository.*;
@@ -41,11 +42,10 @@ public class SimpleGraphInsertService implements GraphInsertService {
     @Transactional
     public void addItemAction(ItemAction itemAction) {
         // Finds user
-        UserNode user = userRepository.merge(new UserNodeBuilder(itemAction.getUser()).build());
+        UserNode user = new UserNodeBuilder(itemAction.getUser(), userRepository).build();
 
         // Finds session
-        Optional<SessionNode> sessionOptional = user.getSessionNodes().stream().filter(q -> q.getSessionId().equalsIgnoreCase(itemAction.getSession().getSessionId())).findFirst();
-        SessionNode session = (sessionOptional.isPresent() ? sessionOptional.get() : sessionRepository.save(new SessionNodeBuilder(itemAction.getSession()).build()));
+        SessionNode session = new SessionNodeBuilder(user, itemAction.getSession(), sessionRepository).build();
 
         // Finds item
         ItemNode item = itemRepository.findByItemId(itemAction.getItemId());
@@ -54,8 +54,13 @@ public class SimpleGraphInsertService implements GraphInsertService {
         session.addSearch(new SearchNodeBuilder(itemAction, session, item, searchQueryRepository).build());
         session.setLocation(new LocationNodeBuilder(itemAction.getSession().getLocation(), session, locationRepository).build());
 
-        user.addSession(session);
-        userRepository.save(user);
+        if (user != null) {
+            user.addSession(session);
+            userRepository.save(user);
+        }
+        else if (session != null) {
+            sessionRepository.save(session);
+        }
     }
 
     @Override
@@ -66,7 +71,6 @@ public class SimpleGraphInsertService implements GraphInsertService {
             itemNode = new ItemNode(item.getItemId(), item.getMediaType(), item.getTopics());
             itemNode.setPublisher(new PublisherNodeBuilder(item.getPublisher(), publisherRepository).build());
             itemNode.setLocation(new LocationNodeBuilder(item.getLocation(), locationRepository).build());
-
             itemRepository.save(itemNode);
         }
     }

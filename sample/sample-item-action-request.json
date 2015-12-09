@@ -1,0 +1,18 @@
+{
+  "action": "visited",
+  "query": "Folkemusikk fra Rana",
+  "user": {
+    "userId": "user1",
+    "age": 28,
+    "gender": "male",
+    "interests": ["Ski", "Nintendo"]
+  },
+  "session": {
+    "sessionId": "session1",
+    "location": {
+      "county": "Nordland",
+      "municipality": "Rana",
+      "country": "Norway"
+    }
+  }
+}

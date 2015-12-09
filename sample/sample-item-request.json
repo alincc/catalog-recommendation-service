@@ -1,0 +1,11 @@
+{
+  "itemId": "URN:NBN:no-nb_digibok_2011063008140",
+  "mediaType": "bøker",
+  "publisher": "Andreas Bjørnådal",
+  "topics": ["Skiing", "Mountains"],
+  "location": {
+    "county": "Nordland",
+    "municipality": "Rana",
+    "country": "Norway"
+  }
+}

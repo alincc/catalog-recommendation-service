@@ -2,7 +2,7 @@ package no.nb.microservices.recommendation.model;
 
 public class Recommendation {
     private String itemId;
-    private double weight;
+    private double score;
 
     public String getItemId() {
         return itemId;
@@ -12,11 +12,11 @@ public class Recommendation {
         this.itemId = itemId;
     }
 
-    public double getWeight() {
-        return weight;
+    public double getScore() {
+        return score;
     }
 
-    public void setWeight(double weight) {
-        this.weight = weight;
+    public void setScore(double score) {
+        this.score = score;
     }
 }

@@ -4,12 +4,20 @@ import no.nb.microservices.recommendation.core.graph.model.node.ItemNode;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
+import java.util.Collection;
+
 public interface ItemRepository extends GraphRepository<ItemNode> {
 
     ItemNode findByItemId(String itemId);
 
     @Query("MERGE (i:Item { itemId: {0}.itemId, mediaType: {0}.mediaType, topics: {0}.topics }) RETURN i")
     ItemNode merge(ItemNode item);
+
+    @Query("MATCH (o:Item)<-[:VISITED]-(s:Session)-[:VISITED]->(i:Item) \n" +
+            "WHERE i.itemId = 'URN:NBN:no-nb_digibok_2011063008140'\n" +
+            "RETURN s, o")
+    Collection<ItemNode> findWhatOtherHaveVisited(String itemId);
+
 //
 //    List<Item> findAllByMediatype(String mediatype);
 
