@@ -9,6 +9,10 @@ public interface PublisherRepository extends GraphRepository<PublisherNode> {
     @Query("MERGE (p:Publisher { name: {0}.name }) RETURN p")
     PublisherNode merge(PublisherNode location);
 
+    @Query("match (n:Publisher)\n" +
+            "using index n:Publisher(name)\n" +
+            "where n.name = {0}\n" +
+            "return n")
     PublisherNode findByName(String name);
 
 }

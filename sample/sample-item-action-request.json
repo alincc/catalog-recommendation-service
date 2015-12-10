@@ -5,7 +5,10 @@
     "userId": "user1",
     "age": 28,
     "gender": "male",
-    "interests": ["Ski", "Nintendo"]
+    "interests": [
+      "Ski",
+      "Nintendo"
+    ]
   },
   "session": {
     "sessionId": "session1",

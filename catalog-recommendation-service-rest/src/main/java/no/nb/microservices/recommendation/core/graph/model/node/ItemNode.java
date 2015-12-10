@@ -1,5 +1,6 @@
 package no.nb.microservices.recommendation.core.graph.model.node;
 
+import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
@@ -9,12 +10,15 @@ import java.util.Collection;
 public class ItemNode {
 
     private Long id;
+
+    @Index(unique = true)
     private String itemId;
+
     private String mediaType;
     private Collection<String> topics;
 
     @Relationship(type = "HAS_LOCATION", direction = Relationship.OUTGOING)
-    private LocationNode location;
+    private MunicipalityNode location;
 
     @Relationship(type = "PUBLISHED_BY", direction = Relationship.OUTGOING)
     private PublisherNode publisher;
@@ -56,11 +60,11 @@ public class ItemNode {
         this.topics = topics;
     }
 
-    public LocationNode getLocation() {
+    public MunicipalityNode getLocation() {
         return location;
     }
 
-    public void setLocation(LocationNode location) {
+    public void setLocation(MunicipalityNode location) {
         this.location = location;
     }
 

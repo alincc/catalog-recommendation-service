@@ -9,6 +9,10 @@ import java.util.Collection;
 
 public interface ItemRepository extends GraphRepository<ItemNode> {
 
+    @Query("MATCH (n:Item)\n" +
+            "USING INDEX n:Item(itemId)\n" +
+            "WHERE n.itemId = {0}\n" +
+            "RETURN n")
     ItemNode findByItemId(String itemId);
 
     @Query("MERGE (i:Item { itemId: {0}.itemId, mediaType: {0}.mediaType, topics: {0}.topics }) RETURN i")

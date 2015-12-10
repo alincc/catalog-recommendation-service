@@ -2,9 +2,9 @@ package no.nb.microservices.recommendation.rest.assembler;
 
 import no.nb.microservices.recommendation.core.graph.model.query.RecommendationQuery;
 import no.nb.microservices.recommendation.model.Recommendation;
+import no.nb.microservices.recommendation.model.RecommendationWrapper;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class RecommendationAssembler {
@@ -15,8 +15,8 @@ public class RecommendationAssembler {
         this.recommendationQueries = recommendationQueries;
     }
 
-    public List<Recommendation> build() {
-        return recommendationQueries.stream().map(q -> map(q)).collect(Collectors.toList());
+    public RecommendationWrapper build() {
+        return new RecommendationWrapper(recommendationQueries.stream().map(q -> map(q)).collect(Collectors.toList()));
     }
 
     private Recommendation map(RecommendationQuery recommendationQuery) {

@@ -1,5 +1,6 @@
 package no.nb.microservices.recommendation.core.graph.model.node;
 
+import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
@@ -11,7 +12,10 @@ import java.util.Set;
 public class UserNode {
 
     private Long id;
+
+    @Index(unique = true)
     private String userId;
+
     private int age;
     private String gender;
     private Collection<String> interests;

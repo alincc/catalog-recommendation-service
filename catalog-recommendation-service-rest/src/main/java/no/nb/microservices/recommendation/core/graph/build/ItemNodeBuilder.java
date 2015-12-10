@@ -1,7 +1,6 @@
 package no.nb.microservices.recommendation.core.graph.build;
 
 import no.nb.microservices.recommendation.core.graph.model.node.ItemNode;
-import no.nb.microservices.recommendation.core.graph.model.node.LocationNode;
 import no.nb.microservices.recommendation.model.Item;
 
 import java.util.Collection;
@@ -26,11 +25,6 @@ public class ItemNodeBuilder {
 
     public ItemNodeBuilder withItemId(String itemId) {
         this.itemNode.setItemId(itemId);
-        return this;
-    }
-
-    public ItemNodeBuilder withLocation(String country, String county, String municipality) {
-        this.itemNode.setLocation(new LocationNode(municipality, county, country));
         return this;
     }
 

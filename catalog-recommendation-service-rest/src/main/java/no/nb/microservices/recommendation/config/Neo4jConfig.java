@@ -27,8 +27,8 @@ public class Neo4jConfig extends Neo4jConfiguration {
 
     @Override
     @Bean
+    //@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
     public Session getSession() throws Exception {
         return super.getSession();
-
     }
 }

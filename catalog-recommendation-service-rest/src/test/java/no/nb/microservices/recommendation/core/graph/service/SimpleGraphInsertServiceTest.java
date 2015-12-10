@@ -2,6 +2,7 @@ package no.nb.microservices.recommendation.core.graph.service;
 
 import no.nb.microservices.recommendation.core.graph.model.node.ItemNode;
 import no.nb.microservices.recommendation.core.graph.model.node.LocationNode;
+import no.nb.microservices.recommendation.core.graph.model.node.MunicipalityNode;
 import no.nb.microservices.recommendation.core.graph.model.node.PublisherNode;
 import no.nb.microservices.recommendation.core.graph.repository.*;
 import no.nb.microservices.recommendation.model.Item;
@@ -53,7 +54,7 @@ public class SimpleGraphInsertServiceTest {
         PublisherNode publisherNode = new PublisherNode(item.getPublisher());
         LocationNode locationNode = new LocationNode(location.getMunicipality(), location.getCounty(), location.getCountry());
         ItemNode itemNode = new ItemNode(item.getItemId());
-        itemNode.setLocation(locationNode);
+        itemNode.setLocation(new MunicipalityNode(location.getMunicipality()));
         itemNode.setPublisher(publisherNode);
 
         when(mockItemRepository.findByItemId(item.getItemId())).thenReturn(null);
@@ -91,7 +92,7 @@ public class SimpleGraphInsertServiceTest {
         PublisherNode publisherNode = new PublisherNode(item.getPublisher());
         LocationNode locationNode = new LocationNode(location.getMunicipality(), location.getCounty(), location.getCountry());
         ItemNode itemNode = new ItemNode(item.getItemId());
-        itemNode.setLocation(locationNode);
+        itemNode.setLocation(new MunicipalityNode(location.getMunicipality()));
         itemNode.setPublisher(publisherNode);
 
         when(mockItemRepository.findByItemId(item.getItemId())).thenReturn(null);

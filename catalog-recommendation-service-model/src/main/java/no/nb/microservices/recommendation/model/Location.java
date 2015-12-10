@@ -5,6 +5,15 @@ public class Location {
     private String county;
     private String country;
 
+    public Location() {
+    }
+
+    public Location(String country, String county, String municipality) {
+        this.municipality = municipality;
+        this.county = county;
+        this.country = country;
+    }
+
     public String getMunicipality() {
         return municipality;
     }

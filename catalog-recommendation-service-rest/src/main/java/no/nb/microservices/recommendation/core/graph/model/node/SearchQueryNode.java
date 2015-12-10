@@ -1,10 +1,13 @@
 package no.nb.microservices.recommendation.core.graph.model.node;
 
+import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 
 @NodeEntity(label = "SearchQuery")
 public class SearchQueryNode {
     private Long id;
+
+    @Index(unique = true)
     private String query;
 
     public SearchQueryNode() {

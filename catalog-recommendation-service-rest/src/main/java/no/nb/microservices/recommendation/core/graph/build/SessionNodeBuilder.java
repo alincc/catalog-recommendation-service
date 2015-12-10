@@ -4,7 +4,6 @@ import no.nb.microservices.recommendation.core.graph.model.node.SessionNode;
 import no.nb.microservices.recommendation.core.graph.model.node.UserNode;
 import no.nb.microservices.recommendation.core.graph.repository.SessionRepository;
 import no.nb.microservices.recommendation.model.Session;
-import no.nb.microservices.recommendation.model.User;
 
 import java.util.Optional;
 
@@ -24,9 +23,8 @@ public class SessionNodeBuilder {
     public SessionNode build() {
         if (userNode != null) {
             Optional<SessionNode> sessionOptional = userNode.getSessionNodes().stream().filter(q -> q.getSessionId().equalsIgnoreCase(session.getSessionId())).findFirst();
-            return  (sessionOptional.isPresent() ? sessionOptional.get() : sessionRepository.save(new SessionNode(session.getSessionId())));
-        }
-        else {
+            return (sessionOptional.isPresent() ? sessionOptional.get() : sessionRepository.save(new SessionNode(session.getSessionId())));
+        } else {
             SessionNode sessionNode = sessionRepository.findBySessionId(session.getSessionId());
             return (sessionNode == null) ? new SessionNode(session.getSessionId()) : sessionNode;
         }

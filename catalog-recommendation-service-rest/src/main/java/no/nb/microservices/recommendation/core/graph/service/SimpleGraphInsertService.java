@@ -2,7 +2,6 @@ package no.nb.microservices.recommendation.core.graph.service;
 
 import no.nb.microservices.recommendation.core.graph.build.*;
 import no.nb.microservices.recommendation.core.graph.model.node.ItemNode;
-import no.nb.microservices.recommendation.core.graph.model.node.LocationNode;
 import no.nb.microservices.recommendation.core.graph.model.node.SessionNode;
 import no.nb.microservices.recommendation.core.graph.model.node.UserNode;
 import no.nb.microservices.recommendation.core.graph.repository.*;
@@ -13,8 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 public class SimpleGraphInsertService implements GraphInsertService {
@@ -27,9 +24,12 @@ public class SimpleGraphInsertService implements GraphInsertService {
     private final LocationRepository locationRepository;
     private final PublisherRepository publisherRepository;
     private final SearchQueryRepository searchQueryRepository;
+    private final MunicipalityRepository municipalityRepository;
+    private final CountyRepository countyRepository;
+    private final CountryRepository countryRepository;
 
     @Autowired
-    public SimpleGraphInsertService(ItemRepository itemRepository, SessionRepository sessionRepository, UserRepository userRepository, SearchRepository searchRepository, LocationRepository locationRepository, PublisherRepository publisherRepository, SearchQueryRepository searchQueryRepository) {
+    public SimpleGraphInsertService(ItemRepository itemRepository, SessionRepository sessionRepository, UserRepository userRepository, SearchRepository searchRepository, LocationRepository locationRepository, PublisherRepository publisherRepository, SearchQueryRepository searchQueryRepository, MunicipalityRepository municipalityRepository, CountyRepository countyRepository, CountryRepository countryRepository) {
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
         this.sessionRepository = sessionRepository;
@@ -37,6 +37,9 @@ public class SimpleGraphInsertService implements GraphInsertService {
         this.locationRepository = locationRepository;
         this.publisherRepository = publisherRepository;
         this.searchQueryRepository = searchQueryRepository;
+        this.municipalityRepository = municipalityRepository;
+        this.countyRepository = countyRepository;
+        this.countryRepository = countryRepository;
     }
 
     @Transactional
@@ -52,13 +55,12 @@ public class SimpleGraphInsertService implements GraphInsertService {
 
         session.addAction(item, itemAction.getAction());
         session.addSearch(new SearchNodeBuilder(itemAction, session, item, searchQueryRepository).build());
-        session.setLocation(new LocationNodeBuilder(itemAction.getSession().getLocation(), session, locationRepository).build());
+        session.setLocation(new LocationNodeBuilder(itemAction.getSession().getLocation(), session, municipalityRepository, countyRepository, countryRepository).build());
 
         if (user != null) {
             user.addSession(session);
             userRepository.save(user);
-        }
-        else if (session != null) {
+        } else if (session != null) {
             sessionRepository.save(session);
         }
     }
@@ -70,7 +72,7 @@ public class SimpleGraphInsertService implements GraphInsertService {
         if (itemNode == null) {
             itemNode = new ItemNode(item.getItemId(), item.getMediaType(), item.getTopics());
             itemNode.setPublisher(new PublisherNodeBuilder(item.getPublisher(), publisherRepository).build());
-            itemNode.setLocation(new LocationNodeBuilder(item.getLocation(), locationRepository).build());
+            itemNode.setLocation(new LocationNodeBuilder(item.getLocation(), municipalityRepository, countyRepository, countryRepository).build());
             itemRepository.save(itemNode);
         }
     }

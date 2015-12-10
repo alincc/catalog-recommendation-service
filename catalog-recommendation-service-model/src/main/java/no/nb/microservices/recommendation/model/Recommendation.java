@@ -5,6 +5,9 @@ public class Recommendation {
     private String itemId;
     private double score;
 
+    public Recommendation() {
+    }
+
     public Recommendation(String itemId, double score) {
         this.itemId = itemId;
         this.score = score;

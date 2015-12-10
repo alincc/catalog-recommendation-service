@@ -1,5 +1,6 @@
 package no.nb.microservices.recommendation.core.graph.model.node;
 
+import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 import org.neo4j.ogm.annotation.typeconversion.DateLong;
@@ -12,6 +13,8 @@ import java.util.Set;
 public class SessionNode {
 
     private Long id;
+
+    @Index(unique = true)
     private String sessionId;
 
     @Relationship(type = "VISITED", direction = Relationship.OUTGOING)
@@ -27,7 +30,7 @@ public class SessionNode {
     private Set<SearchNode> searches = new HashSet<>();
 
     @Relationship(type = "HAS_LOCATION", direction = Relationship.OUTGOING)
-    private LocationNode location;
+    private MunicipalityNode location;
 
     @DateLong
     private Date date;
@@ -44,7 +47,7 @@ public class SessionNode {
         this.date = date;
     }
 
-    public SessionNode(String sessionId, LocationNode location) {
+    public SessionNode(String sessionId, MunicipalityNode location) {
         this.sessionId = sessionId;
         this.location = location;
     }
@@ -70,11 +73,11 @@ public class SessionNode {
         return sessionId;
     }
 
-    public LocationNode getLocation() {
+    public MunicipalityNode getLocation() {
         return location;
     }
 
-    public void setLocation(LocationNode location) {
+    public void setLocation(MunicipalityNode location) {
         this.location = location;
     }
 
