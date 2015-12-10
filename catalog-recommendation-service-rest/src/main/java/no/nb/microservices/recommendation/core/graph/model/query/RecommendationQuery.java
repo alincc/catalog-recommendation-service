@@ -1,14 +1,11 @@
-package no.nb.microservices.recommendation.model;
+package no.nb.microservices.recommendation.core.graph.model.query;
 
+import org.springframework.data.neo4j.annotation.QueryResult;
 
-public class Recommendation {
+@QueryResult
+public class RecommendationQuery {
     private String itemId;
     private double score;
-
-    public Recommendation(String itemId, double score) {
-        this.itemId = itemId;
-        this.score = score;
-    }
 
     public String getItemId() {
         return itemId;

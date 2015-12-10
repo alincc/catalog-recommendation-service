@@ -1,6 +1,8 @@
 package no.nb.microservices.recommendation.core.graph.repository;
 
 import no.nb.microservices.recommendation.core.graph.model.node.ItemNode;
+import no.nb.microservices.recommendation.core.graph.model.query.RecommendationQuery;
+import no.nb.microservices.recommendation.model.Recommendation;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
@@ -14,9 +16,11 @@ public interface ItemRepository extends GraphRepository<ItemNode> {
     ItemNode merge(ItemNode item);
 
     @Query("MATCH (o:Item)<-[:VISITED]-(s:Session)-[:VISITED]->(i:Item) \n" +
-            "WHERE i.itemId = 'URN:NBN:no-nb_digibok_2011063008140'\n" +
-            "RETURN s, o")
-    Collection<ItemNode> findWhatOtherHaveVisited(String itemId);
+            "WHERE i.itemId = {0}\n" +
+            "RETURN o.itemId as itemId, COUNT(o) as score\n" +
+            "ORDER BY score DESC\n" +
+            "LIMIT 10")
+    Collection<RecommendationQuery> findWhatOtherHaveVisited(String itemId);
 
 //
 //    List<Item> findAllByMediatype(String mediatype);
