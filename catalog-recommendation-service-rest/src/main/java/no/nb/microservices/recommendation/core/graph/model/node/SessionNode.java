@@ -2,7 +2,9 @@ package no.nb.microservices.recommendation.core.graph.model.node;
 
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
+import org.neo4j.ogm.annotation.typeconversion.DateLong;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,11 +29,19 @@ public class SessionNode {
     @Relationship(type = "HAS_LOCATION", direction = Relationship.OUTGOING)
     private LocationNode location;
 
+    @DateLong
+    private Date date;
+
     protected SessionNode() {
     }
 
     public SessionNode(String sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public SessionNode(String sessionId, Date date) {
+        this.sessionId = sessionId;
+        this.date = date;
     }
 
     public SessionNode(String sessionId, LocationNode location) {

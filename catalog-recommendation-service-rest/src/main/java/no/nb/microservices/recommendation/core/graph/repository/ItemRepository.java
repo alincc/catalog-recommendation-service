@@ -2,7 +2,6 @@ package no.nb.microservices.recommendation.core.graph.repository;
 
 import no.nb.microservices.recommendation.core.graph.model.node.ItemNode;
 import no.nb.microservices.recommendation.core.graph.model.query.RecommendationQuery;
-import no.nb.microservices.recommendation.model.Recommendation;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
@@ -21,6 +20,14 @@ public interface ItemRepository extends GraphRepository<ItemNode> {
             "ORDER BY score DESC\n" +
             "LIMIT 10")
     Collection<RecommendationQuery> findWhatOtherHaveVisited(String itemId);
+
+    @Query("MATCH (s:Session)-[:VISITED]->(i:Item) " +
+            "WHERE (s.date >= {0}) AND (s.date <= {1}) " +
+            "WITH i, COUNT(*) AS score " +
+            "RETURN i.itemId AS itemId, score " +
+            "ORDER BY score DESC " +
+            "LIMIT {2}")
+    Collection<RecommendationQuery> findMostVisited(long fromDate, long toDate, int limit);
 
 //
 //    List<Item> findAllByMediatype(String mediatype);

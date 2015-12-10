@@ -77,11 +77,6 @@
             <artifactId>spring-data-neo4j</artifactId>
             <version>4.0.0.RELEASE</version>
         </dependency>
-        <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo4j-enterprise</artifactId>
-            <version>2.3.1</version>
-        </dependency>
 
         <!-- Testing -->
         <dependency>

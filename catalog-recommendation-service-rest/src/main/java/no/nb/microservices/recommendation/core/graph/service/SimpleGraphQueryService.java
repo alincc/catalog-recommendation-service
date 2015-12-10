@@ -2,7 +2,6 @@ package no.nb.microservices.recommendation.core.graph.service;
 
 import no.nb.microservices.recommendation.core.graph.model.query.RecommendationQuery;
 import no.nb.microservices.recommendation.core.graph.repository.*;
-import no.nb.microservices.recommendation.model.Recommendation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +32,10 @@ public class SimpleGraphQueryService implements GraphQueryService {
     @Override
     public Collection<RecommendationQuery> findWhatOtherHaveVisited(String itemId) {
         return itemRepository.findWhatOtherHaveVisited(itemId);
+    }
+
+    @Override
+    public Collection<RecommendationQuery> findMostVisited(long fromDate, long toDate, int limit) {
+        return itemRepository.findMostVisited(fromDate, toDate, limit);
     }
 }

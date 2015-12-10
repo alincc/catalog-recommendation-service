@@ -12,13 +12,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>no.nb.microservices.clickstream</groupId>
-            <artifactId>clickstream-service-model</artifactId>
+            <groupId>no.nb.microservices.recommendation</groupId>
+            <artifactId>catalog-recommendation-service-rest</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>no.nb.microservices.clickstream</groupId>
-            <artifactId>clickstream-service-rest</artifactId>
+            <groupId>no.nb.microservices.recommendation</groupId>
+            <artifactId>catalog-recommendation-service-rest</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -45,6 +45,21 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-ogm</artifactId>
+            <version>1.1.3</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.neo4j.test</groupId>
+            <artifactId>neo4j-harness</artifactId>
+            <version>2.3.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
