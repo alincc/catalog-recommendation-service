@@ -35,7 +35,12 @@ public class SimpleGraphQueryService implements GraphQueryService {
     }
 
     @Override
-    public Collection<RecommendationQuery> findMostVisited(long fromDate, long toDate, int limit) {
+    public Collection<RecommendationQuery> findMostVisitedItems(long fromDate, long toDate, int limit) {
         return itemRepository.findMostVisited(fromDate, toDate, limit);
+    }
+
+    @Override
+    public Collection<RecommendationQuery> findMostVisitedItems(long fromDate, long toDate, int limit, String mediaType) {
+        return itemRepository.findMostVisited(fromDate, toDate, mediaType, limit);
     }
 }

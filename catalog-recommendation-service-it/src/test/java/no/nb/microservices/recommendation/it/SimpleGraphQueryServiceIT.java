@@ -65,7 +65,7 @@ public class SimpleGraphQueryServiceIT {
         Date fromDate = new DateTime(2010, 1, 1, 12, 0).toDate();
         Date toDate = new DateTime(2016, 1, 1, 12, 0).toDate();
 
-        Collection<RecommendationQuery> mostVisited = graphQueryService.findMostVisited(fromDate.getTime(), toDate.getTime(), 10);
+        Collection<RecommendationQuery> mostVisited = graphQueryService.findMostVisitedItems(fromDate.getTime(), toDate.getTime(), 10);
 
         assertThat(mostVisited, hasSize(3));
         RecommendationQuery recommendationQuery = mostVisited.iterator().next();

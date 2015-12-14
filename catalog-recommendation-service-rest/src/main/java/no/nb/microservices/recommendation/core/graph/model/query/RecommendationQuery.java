@@ -7,6 +7,14 @@ public class RecommendationQuery {
     private String itemId;
     private double score;
 
+    public RecommendationQuery() {
+    }
+
+    public RecommendationQuery(String itemId, double score) {
+        this.itemId = itemId;
+        this.score = score;
+    }
+
     public String getItemId() {
         return itemId;
     }

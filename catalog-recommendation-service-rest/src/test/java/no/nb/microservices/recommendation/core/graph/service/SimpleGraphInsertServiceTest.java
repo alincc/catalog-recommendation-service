@@ -1,9 +1,6 @@
 package no.nb.microservices.recommendation.core.graph.service;
 
-import no.nb.microservices.recommendation.core.graph.model.node.ItemNode;
-import no.nb.microservices.recommendation.core.graph.model.node.LocationNode;
-import no.nb.microservices.recommendation.core.graph.model.node.MunicipalityNode;
-import no.nb.microservices.recommendation.core.graph.model.node.PublisherNode;
+import no.nb.microservices.recommendation.core.graph.model.node.*;
 import no.nb.microservices.recommendation.core.graph.repository.*;
 import no.nb.microservices.recommendation.model.Item;
 import no.nb.microservices.recommendation.model.Location;
@@ -32,10 +29,16 @@ public class SimpleGraphInsertServiceTest {
     private SearchRepository mockSearchRepository;
 
     @Mock
-    private LocationRepository mockLocationRepository;
+    private PublisherRepository mockPublisherRepository;
 
     @Mock
-    private PublisherRepository mockPublisherRepository;
+    private CountryRepository mockCountryRepository;
+
+    @Mock
+    private CountyRepository mockCountyRepository;
+
+    @Mock
+    private MunicipalityRepository mockMunicipalityRepository;
 
     @InjectMocks
     private SimpleGraphInsertService simpleGraphInsertService;
@@ -52,7 +55,6 @@ public class SimpleGraphInsertServiceTest {
         Location location = item.getLocation();
 
         PublisherNode publisherNode = new PublisherNode(item.getPublisher());
-        LocationNode locationNode = new LocationNode(location.getMunicipality(), location.getCounty(), location.getCountry());
         ItemNode itemNode = new ItemNode(item.getItemId());
         itemNode.setLocation(new MunicipalityNode(location.getMunicipality()));
         itemNode.setPublisher(publisherNode);
@@ -60,8 +62,12 @@ public class SimpleGraphInsertServiceTest {
         when(mockItemRepository.findByItemId(item.getItemId())).thenReturn(null);
         when(mockPublisherRepository.findByName(item.getPublisher())).thenReturn(null);
         when(mockPublisherRepository.save(any(PublisherNode.class))).thenReturn(publisherNode);
-        when(mockLocationRepository.findByMunicipalityAndCounty(location.getMunicipality(), location.getCounty())).thenReturn(null);
-        when(mockLocationRepository.save(any(LocationNode.class))).thenReturn(locationNode);
+        when(mockMunicipalityRepository.findByMunicipality(location.getMunicipality())).thenReturn(null);
+        when(mockCountyRepository.findByCounty(location.getCounty())).thenReturn(null);
+        when(mockCountryRepository.findByCountry(location.getCountry())).thenReturn(null);
+        when(mockMunicipalityRepository.save(any(MunicipalityNode.class))).thenReturn(new MunicipalityNode("municipality"));
+        when(mockCountyRepository.save(any(CountyNode.class))).thenReturn(new CountyNode("county"));
+        when(mockCountryRepository.save(any(CountryNode.class))).thenReturn(new CountryNode("country"));
         when(mockItemRepository.save(any(ItemNode.class))).thenReturn(itemNode);
     }
 
@@ -69,12 +75,16 @@ public class SimpleGraphInsertServiceTest {
         verify(mockItemRepository).findByItemId(item.getItemId());
         verify(mockPublisherRepository).findByName(item.getPublisher());
         verify(mockPublisherRepository).save(any(PublisherNode.class));
-        verify(mockLocationRepository).findByMunicipalityAndCounty(item.getLocation().getMunicipality(), item.getLocation().getCounty());
-        verify(mockLocationRepository).save(any(LocationNode.class));
+        verify(mockMunicipalityRepository).findByMunicipality(item.getLocation().getMunicipality());
+        verify(mockCountyRepository).findByCounty(item.getLocation().getCounty());
+        verify(mockCountryRepository).findByCountry(item.getLocation().getCountry());
+        verify(mockMunicipalityRepository).save(any(MunicipalityNode.class));
         verify(mockItemRepository).save(any(ItemNode.class));
         verifyNoMoreInteractions(mockItemRepository);
         verifyNoMoreInteractions(mockPublisherRepository);
-        verifyNoMoreInteractions(mockLocationRepository);
+        verifyNoMoreInteractions(mockMunicipalityRepository);
+        verifyNoMoreInteractions(mockCountyRepository);
+        verifyNoMoreInteractions(mockCountryRepository);
     }
 
     @Test
@@ -90,25 +100,21 @@ public class SimpleGraphInsertServiceTest {
         Location location = item.getLocation();
 
         PublisherNode publisherNode = new PublisherNode(item.getPublisher());
-        LocationNode locationNode = new LocationNode(location.getMunicipality(), location.getCounty(), location.getCountry());
         ItemNode itemNode = new ItemNode(item.getItemId());
         itemNode.setLocation(new MunicipalityNode(location.getMunicipality()));
         itemNode.setPublisher(publisherNode);
 
         when(mockItemRepository.findByItemId(item.getItemId())).thenReturn(null);
         when(mockPublisherRepository.findByName(item.getPublisher())).thenReturn(publisherNode);
-        when(mockLocationRepository.findByMunicipalityAndCounty(location.getMunicipality(), location.getCounty())).thenReturn(locationNode);
         when(mockItemRepository.save(any(ItemNode.class))).thenReturn(itemNode);
     }
 
     private void verifyThatOnlyItemGotSaved(Item item) {
         verify(mockItemRepository).findByItemId(item.getItemId());
         verify(mockPublisherRepository).findByName(item.getPublisher());
-        verify(mockLocationRepository).findByMunicipalityAndCounty(item.getLocation().getMunicipality(), item.getLocation().getCounty());
         verify(mockItemRepository).save(any(ItemNode.class));
         verifyNoMoreInteractions(mockItemRepository);
         verifyNoMoreInteractions(mockPublisherRepository);
-        verifyNoMoreInteractions(mockLocationRepository);
     }
 
     private Item createItem() {

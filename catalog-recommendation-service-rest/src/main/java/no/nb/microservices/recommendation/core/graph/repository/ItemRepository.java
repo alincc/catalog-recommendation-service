@@ -4,6 +4,7 @@ import no.nb.microservices.recommendation.core.graph.model.node.ItemNode;
 import no.nb.microservices.recommendation.core.graph.model.query.RecommendationQuery;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 
@@ -26,12 +27,25 @@ public interface ItemRepository extends GraphRepository<ItemNode> {
     Collection<RecommendationQuery> findWhatOtherHaveVisited(String itemId);
 
     @Query("MATCH (s:Session)-[:VISITED]->(i:Item) " +
-            "WHERE (s.date >= {0}) AND (s.date <= {1}) " +
+            "WHERE (s.date >= {fromDate}) AND (s.date <= {toDate}) " +
             "WITH i, COUNT(*) AS score " +
             "RETURN i.itemId AS itemId, score " +
             "ORDER BY score DESC " +
-            "LIMIT {2}")
-    Collection<RecommendationQuery> findMostVisited(long fromDate, long toDate, int limit);
+            "LIMIT {limit}")
+    Collection<RecommendationQuery> findMostVisited(@Param("fromDate") long fromDate,
+                                                    @Param("toDate") long toDate,
+                                                    @Param("limit") int limit);
+
+    @Query("MATCH (s:Session)-[:VISITED]->(i:Item) " +
+            "WHERE (s.date >= {fromDate}) AND (s.date <= {toDate}) AND (i.mediaType = {mediaType})" +
+            "WITH i, COUNT(*) AS score " +
+            "RETURN i.itemId AS itemId, score " +
+            "ORDER BY score DESC " +
+            "LIMIT {limit}")
+    Collection<RecommendationQuery> findMostVisited(@Param("fromDate") long fromDate,
+                                                    @Param("toDate") long toDate,
+                                                    @Param("mediaType") String mediaType,
+                                                    @Param("limit") int limit);
 
 //
 //    List<Item> findAllByMediatype(String mediatype);

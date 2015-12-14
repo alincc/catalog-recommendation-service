@@ -23,10 +23,10 @@ public class SessionNodeBuilder {
     public SessionNode build() {
         if (userNode != null) {
             Optional<SessionNode> sessionOptional = userNode.getSessionNodes().stream().filter(q -> q.getSessionId().equalsIgnoreCase(session.getSessionId())).findFirst();
-            return (sessionOptional.isPresent() ? sessionOptional.get() : sessionRepository.save(new SessionNode(session.getSessionId())));
+            return (sessionOptional.isPresent() ? sessionOptional.get() : sessionRepository.save(new SessionNode(session.getSessionId(), session.getDate() )));
         } else {
             SessionNode sessionNode = sessionRepository.findBySessionId(session.getSessionId());
-            return (sessionNode == null) ? new SessionNode(session.getSessionId()) : sessionNode;
+            return (sessionNode == null) ? new SessionNode(session.getSessionId(), session.getDate()) : sessionNode;
         }
     }
 }

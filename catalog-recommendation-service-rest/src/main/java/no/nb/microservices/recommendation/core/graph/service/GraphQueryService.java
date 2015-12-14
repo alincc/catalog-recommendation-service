@@ -7,5 +7,7 @@ import java.util.Collection;
 public interface GraphQueryService {
     Collection<RecommendationQuery> findWhatOtherHaveVisited(String itemId);
 
-    Collection<RecommendationQuery> findMostVisited(long fromDate, long toDate, int limit);
+    Collection<RecommendationQuery> findMostVisitedItems(long fromDate, long toDate, int limit);
+
+    Collection<RecommendationQuery> findMostVisitedItems(long fromDate, long toDate, int limit, String mediaType);
 }
