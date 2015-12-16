@@ -1,5 +1,6 @@
 package no.nb.microservices.recommendation.rest.assembler;
 
+import no.nb.microservices.catalogitem.rest.model.ItemResource;
 import no.nb.microservices.recommendation.core.filter.PermissionFilter;
 import no.nb.microservices.recommendation.core.graph.model.query.RecommendationQuery;
 import no.nb.microservices.recommendation.core.item.model.RecommendationItem;
@@ -58,7 +59,7 @@ public class RecommendationAssembler {
     }
 
     private Recommendation mapQuery(RecommendationQuery recommendationQuery) {
-        return new Recommendation(recommendationQuery.getItemId(), recommendationQuery.getScore());
+        return new Recommendation(new ItemResource(recommendationQuery.getItemId()), recommendationQuery.getScore());
     }
 
 }

@@ -47,10 +47,7 @@ public class QueryController {
                                                       @RequestParam(required = false, defaultValue = "10") int limit,
                                                       @RequestParam(required = false) String mediaType)
     {
-        Collection<RecommendationQuery> mostVisitedItems = (StringUtils.isEmpty(mediaType)) ?
-                graphQueryService.findMostVisitedItems(fromDate.getTime(), toDate.getTime(), limit) :
-                graphQueryService.findMostVisitedItems(fromDate.getTime(), toDate.getTime(), limit, mediaType);
-
+        Collection<RecommendationQuery> mostVisitedItems = graphQueryService.findMostVisitedItems(fromDate.getTime(), toDate.getTime(), limit, mediaType);
 
         return new RecommendationAssembler(mostVisitedItems)
                 .appendItem(catalogItemService)

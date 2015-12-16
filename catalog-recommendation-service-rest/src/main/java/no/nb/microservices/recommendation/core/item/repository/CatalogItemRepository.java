@@ -11,8 +11,9 @@ import java.util.List;
 
 @FeignClient("catalog-item-service")
 public interface CatalogItemRepository {
+
     @RequestMapping(value = "/v1/catalog/items/{id}", method = RequestMethod.GET)
-    ItemResource  getItem(@PathVariable(value = "id") String id,
-                          @RequestParam(required=false) List<String> fields,
-                          @RequestParam(required=false) List<String> expand);
+    ItemResource getItem(@PathVariable("id") String id,
+                          @RequestParam("fields") List<String> fields,
+                          @RequestParam("expand") List<String> expand);
 }

@@ -2,6 +2,7 @@ package no.nb.microservices.recommendation.core.graph.service;
 
 import no.nb.microservices.recommendation.core.graph.model.query.RecommendationQuery;
 import no.nb.microservices.recommendation.core.graph.repository.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,17 +15,17 @@ public class SimpleGraphQueryService implements GraphQueryService {
     private final SessionRepository sessionRepository;
     private final UserRepository userRepository;
     private final SearchRepository searchRepository;
-    private final LocationRepository locationRepository;
     private final PublisherRepository publisherRepository;
     private final SearchQueryRepository searchQueryRepository;
 
     @Autowired
-    public SimpleGraphQueryService(ItemRepository itemRepository, SessionRepository sessionRepository, UserRepository userRepository, SearchRepository searchRepository, LocationRepository locationRepository, PublisherRepository publisherRepository, SearchQueryRepository searchQueryRepository) {
+    public SimpleGraphQueryService(ItemRepository itemRepository, SessionRepository sessionRepository,
+                                   UserRepository userRepository, SearchRepository searchRepository,
+                                   PublisherRepository publisherRepository, SearchQueryRepository searchQueryRepository) {
         this.itemRepository = itemRepository;
         this.sessionRepository = sessionRepository;
         this.userRepository = userRepository;
         this.searchRepository = searchRepository;
-        this.locationRepository = locationRepository;
         this.publisherRepository = publisherRepository;
         this.searchQueryRepository = searchQueryRepository;
     }
@@ -35,12 +36,12 @@ public class SimpleGraphQueryService implements GraphQueryService {
     }
 
     @Override
-    public Collection<RecommendationQuery> findMostVisitedItems(long fromDate, long toDate, int limit) {
-        return itemRepository.findMostVisited(fromDate, toDate, limit);
-    }
-
-    @Override
     public Collection<RecommendationQuery> findMostVisitedItems(long fromDate, long toDate, int limit, String mediaType) {
-        return itemRepository.findMostVisited(fromDate, toDate, mediaType, limit);
+        if (StringUtils.isEmpty(mediaType)) {
+            return itemRepository.findMostVisited(fromDate, toDate, limit);
+        }
+        else {
+            return itemRepository.findMostVisited(fromDate, toDate, mediaType, limit);
+        }
     }
 }

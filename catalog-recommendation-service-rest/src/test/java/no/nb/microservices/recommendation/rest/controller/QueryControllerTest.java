@@ -32,7 +32,7 @@ public class QueryControllerTest {
         recommendationQuery.add(new RecommendationQuery("item1", 34));
         Date fromDate = new DateTime(2010, 1, 1, 12, 0).toDate();
         Date toDate = new DateTime(2015, 1, 1, 12, 0).toDate();
-        when(mockGraphQueryService.findMostVisitedItems(fromDate.getTime(), toDate.getTime(), 10)).thenReturn(recommendationQuery);
+        when(mockGraphQueryService.findMostVisitedItems(fromDate.getTime(), toDate.getTime(), 10, null)).thenReturn(recommendationQuery);
 
         RecommendationWrapper mostVisitedItems = queryController.findMostVisitedItems(fromDate, toDate, 10, null);
 
@@ -45,7 +45,7 @@ public class QueryControllerTest {
         recommendationQuery.add(new RecommendationQuery("item1", 34));
         Date fromDate = new DateTime(2010, 1, 1, 12, 0).toDate();
         Date toDate = new DateTime(2015, 1, 1, 12, 0).toDate();
-        when(mockGraphQueryService.findMostVisitedItems(fromDate.getTime(), toDate.getTime(), 10)).thenReturn(recommendationQuery);
+        when(mockGraphQueryService.findMostVisitedItems(fromDate.getTime(), toDate.getTime(), 10, null)).thenReturn(recommendationQuery);
 
         RecommendationWrapper mostVisitedItems = queryController.findMostVisitedItems(fromDate, toDate, 10, "Books");
 

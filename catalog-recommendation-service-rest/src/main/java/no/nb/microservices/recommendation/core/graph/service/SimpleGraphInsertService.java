@@ -21,7 +21,6 @@ public class SimpleGraphInsertService implements GraphInsertService {
     private final SessionRepository sessionRepository;
     private final UserRepository userRepository;
     private final SearchRepository searchRepository;
-    private final LocationRepository locationRepository;
     private final PublisherRepository publisherRepository;
     private final SearchQueryRepository searchQueryRepository;
     private final MunicipalityRepository municipalityRepository;
@@ -29,12 +28,15 @@ public class SimpleGraphInsertService implements GraphInsertService {
     private final CountryRepository countryRepository;
 
     @Autowired
-    public SimpleGraphInsertService(ItemRepository itemRepository, SessionRepository sessionRepository, UserRepository userRepository, SearchRepository searchRepository, LocationRepository locationRepository, PublisherRepository publisherRepository, SearchQueryRepository searchQueryRepository, MunicipalityRepository municipalityRepository, CountyRepository countyRepository, CountryRepository countryRepository) {
+    public SimpleGraphInsertService(ItemRepository itemRepository, SessionRepository sessionRepository,
+                                    UserRepository userRepository, SearchRepository searchRepository,
+                                    PublisherRepository publisherRepository, SearchQueryRepository searchQueryRepository,
+                                    MunicipalityRepository municipalityRepository, CountyRepository countyRepository,
+                                    CountryRepository countryRepository) {
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
         this.sessionRepository = sessionRepository;
         this.searchRepository = searchRepository;
-        this.locationRepository = locationRepository;
         this.publisherRepository = publisherRepository;
         this.searchQueryRepository = searchQueryRepository;
         this.municipalityRepository = municipalityRepository;
