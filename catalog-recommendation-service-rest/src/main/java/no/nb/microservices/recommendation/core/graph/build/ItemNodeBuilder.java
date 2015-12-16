@@ -1,7 +1,7 @@
 package no.nb.microservices.recommendation.core.graph.build;
 
 import no.nb.microservices.recommendation.core.graph.model.node.ItemNode;
-import no.nb.microservices.recommendation.model.Item;
+import no.nb.microservices.recommendation.model.query.Item;
 
 import java.util.Collection;
 

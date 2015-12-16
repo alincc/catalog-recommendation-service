@@ -1,4 +1,4 @@
-package no.nb.microservices.recommendation.model;
+package no.nb.microservices.recommendation.model.query;
 
 public class Location {
     private String municipality;

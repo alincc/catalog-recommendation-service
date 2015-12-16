@@ -5,7 +5,7 @@ import no.nb.microservices.recommendation.core.graph.model.node.SearchNode;
 import no.nb.microservices.recommendation.core.graph.model.node.SearchQueryNode;
 import no.nb.microservices.recommendation.core.graph.model.node.SessionNode;
 import no.nb.microservices.recommendation.core.graph.repository.SearchQueryRepository;
-import no.nb.microservices.recommendation.model.ItemAction;
+import no.nb.microservices.recommendation.model.query.ItemAction;
 import org.springframework.util.StringUtils;
 
 import java.util.Optional;

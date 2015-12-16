@@ -1,4 +1,4 @@
-package no.nb.microservices.recommendation.model;
+package no.nb.microservices.recommendation.model.response;
 
 import java.util.List;
 

@@ -7,7 +7,7 @@ import no.nb.microservices.recommendation.core.graph.model.node.SessionNode;
 import no.nb.microservices.recommendation.core.graph.repository.CountryRepository;
 import no.nb.microservices.recommendation.core.graph.repository.CountyRepository;
 import no.nb.microservices.recommendation.core.graph.repository.MunicipalityRepository;
-import no.nb.microservices.recommendation.model.Location;
+import no.nb.microservices.recommendation.model.query.Location;
 
 public class LocationNodeBuilder {
 

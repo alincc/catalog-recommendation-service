@@ -2,7 +2,7 @@ package no.nb.microservices.recommendation.core.graph.build;
 
 import no.nb.microservices.recommendation.core.graph.model.node.UserNode;
 import no.nb.microservices.recommendation.core.graph.repository.UserRepository;
-import no.nb.microservices.recommendation.model.User;
+import no.nb.microservices.recommendation.model.query.User;
 
 public class UserNodeBuilder {
 

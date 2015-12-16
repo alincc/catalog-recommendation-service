@@ -3,7 +3,7 @@ package no.nb.microservices.recommendation.core.graph.build;
 import no.nb.microservices.recommendation.core.graph.model.node.SessionNode;
 import no.nb.microservices.recommendation.core.graph.model.node.UserNode;
 import no.nb.microservices.recommendation.core.graph.repository.SessionRepository;
-import no.nb.microservices.recommendation.model.Session;
+import no.nb.microservices.recommendation.model.query.Session;
 
 import java.util.Optional;
 

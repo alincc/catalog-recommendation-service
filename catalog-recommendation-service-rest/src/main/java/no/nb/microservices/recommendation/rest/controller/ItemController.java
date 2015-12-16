@@ -1,8 +1,8 @@
 package no.nb.microservices.recommendation.rest.controller;
 
 import no.nb.microservices.recommendation.core.graph.service.GraphInsertService;
-import no.nb.microservices.recommendation.model.Item;
-import no.nb.microservices.recommendation.model.ItemAction;
+import no.nb.microservices.recommendation.model.query.Item;
+import no.nb.microservices.recommendation.model.query.ItemAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

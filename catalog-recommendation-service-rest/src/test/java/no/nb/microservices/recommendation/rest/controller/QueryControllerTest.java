@@ -2,7 +2,7 @@ package no.nb.microservices.recommendation.rest.controller;
 
 import no.nb.microservices.recommendation.core.graph.model.query.RecommendationQuery;
 import no.nb.microservices.recommendation.core.graph.service.GraphQueryService;
-import no.nb.microservices.recommendation.model.RecommendationWrapper;
+import no.nb.microservices.recommendation.model.response.RecommendationWrapper;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;

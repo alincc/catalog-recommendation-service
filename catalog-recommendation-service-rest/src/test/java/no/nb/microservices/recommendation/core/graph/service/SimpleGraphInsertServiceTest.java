@@ -2,8 +2,8 @@ package no.nb.microservices.recommendation.core.graph.service;
 
 import no.nb.microservices.recommendation.core.graph.model.node.*;
 import no.nb.microservices.recommendation.core.graph.repository.*;
-import no.nb.microservices.recommendation.model.Item;
-import no.nb.microservices.recommendation.model.Location;
+import no.nb.microservices.recommendation.model.query.Item;
+import no.nb.microservices.recommendation.model.query.Location;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
