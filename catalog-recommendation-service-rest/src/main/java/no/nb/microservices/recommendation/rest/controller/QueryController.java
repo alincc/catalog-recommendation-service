@@ -32,13 +32,17 @@ public class QueryController {
     }
 
     @RequestMapping(value = "/query/othershavevisited")
-    public RecommendationWrapper findOtherHaveVisited(@RequestParam String itemId) {
+    public RecommendationWrapper findOtherHaveVisited(@RequestParam String itemId,
+                                                      @RequestParam(required = false) boolean appendItem,
+                                                      @RequestParam(required = false) boolean filter)
+    {
         Collection<RecommendationQuery> whatOtherHaveVisited = graphQueryService.findWhatOtherHaveVisited(itemId);
 
-        return new RecommendationAssembler(whatOtherHaveVisited)
-                .appendItem(catalogItemService)
-                .withFilter(permissionFilter)
-                .build();
+        RecommendationAssembler recommendationAssembler = new RecommendationAssembler(whatOtherHaveVisited);
+        if (appendItem) recommendationAssembler.appendItem(catalogItemService);
+        if (filter) recommendationAssembler.withFilter(permissionFilter);
+
+        return recommendationAssembler.build();
     }
 
     @RequestMapping(value = "/query/mostvisited")
@@ -49,9 +53,7 @@ public class QueryController {
     {
         Collection<RecommendationQuery> mostVisitedItems = graphQueryService.findMostVisitedItems(fromDate.getTime(), toDate.getTime(), limit, mediaType);
 
-        return new RecommendationAssembler(mostVisitedItems)
-                .appendItem(catalogItemService)
-                .withFilter(permissionFilter)
-                .build();
+        RecommendationAssembler recommendationAssembler = new RecommendationAssembler(mostVisitedItems);
+        return recommendationAssembler.build();
     }
 }

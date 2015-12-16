@@ -21,20 +21,19 @@ public class RecommendationAssembler {
     private boolean filterItems = false;
     private boolean addItems = false;
 
-
     public RecommendationAssembler(Collection<RecommendationQuery> recommendationQueries) {
         this.recommendationQueries = recommendationQueries;
     }
 
     public RecommendationAssembler withFilter(PermissionFilter permissionFilter) {
         this.permissionFilter = permissionFilter;
-        this.filterItems = true;
+        this.filterItems = (this.permissionFilter != null);
         return this;
     }
 
     public RecommendationAssembler appendItem(CatalogItemService catalogItemService) {
         this.catalogItemService = catalogItemService;
-        this.addItems = true;
+        this.addItems = (this.catalogItemService != null);
         return this;
     }
 
