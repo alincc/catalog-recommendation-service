@@ -37,6 +37,7 @@
         <module>catalog-recommendation-service-model</module>
         <module>catalog-recommendation-service-rest</module>
         <module>catalog-recommendation-service-it</module>
+        <module>catalog-recommendation-service-graphbuilder</module>
     </modules>
 
     <scm>
