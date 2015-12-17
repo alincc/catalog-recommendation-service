@@ -52,6 +52,12 @@ public class SessionNode {
         this.location = location;
     }
 
+    public SessionNode(String sessionId, Date date, MunicipalityNode locationNode) {
+        this.sessionId = sessionId;
+        this.date = date;
+        this.location = locationNode;
+    }
+
     public void addAction(ItemNode itemNode, String action) {
         if ("DOWNLOADED".equalsIgnoreCase(action)) {
             downloads.add(itemNode);

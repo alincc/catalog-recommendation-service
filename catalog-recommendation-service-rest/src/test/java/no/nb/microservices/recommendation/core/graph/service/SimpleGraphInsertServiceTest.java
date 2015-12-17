@@ -1,120 +1,112 @@
 package no.nb.microservices.recommendation.core.graph.service;
 
+import no.nb.microservices.recommendation.core.graph.build.ItemService;
+import no.nb.microservices.recommendation.core.graph.build.SearchService;
+import no.nb.microservices.recommendation.core.graph.build.SessionService;
+import no.nb.microservices.recommendation.core.graph.build.UserService;
 import no.nb.microservices.recommendation.core.graph.model.node.*;
-import no.nb.microservices.recommendation.core.graph.repository.*;
-import no.nb.microservices.recommendation.model.query.Item;
-import no.nb.microservices.recommendation.model.query.Location;
+import no.nb.microservices.recommendation.model.query.*;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SimpleGraphInsertServiceTest {
 
-    @Mock
-    private ItemRepository mockItemRepository;
 
     @Mock
-    private SessionRepository mockSessionRepository;
+    private UserService userService;
 
     @Mock
-    private UserRepository mockUserRepository;
+    private SessionService sessionService;
 
     @Mock
-    private SearchRepository mockSearchRepository;
+    private ItemService itemService;
 
     @Mock
-    private PublisherRepository mockPublisherRepository;
-
-    @Mock
-    private CountryRepository mockCountryRepository;
-
-    @Mock
-    private CountyRepository mockCountyRepository;
-
-    @Mock
-    private MunicipalityRepository mockMunicipalityRepository;
+    private SearchService searchService;
 
     @InjectMocks
     private SimpleGraphInsertService simpleGraphInsertService;
 
-    @Test
-    public void ifItemAndLocationAndPublisherDontExistsThenAddThemToGraph() {
-        Item item = createItem();
-        mockCallsToSaveItemAndPublisherAndLocation(item);
-        simpleGraphInsertService.addItem(item);
-        verifyThatItemAndLocationAndPublisherGotSaved(item);
-    }
-
-    private void mockCallsToSaveItemAndPublisherAndLocation(Item item) {
-        Location location = item.getLocation();
-
-        PublisherNode publisherNode = new PublisherNode(item.getPublisher());
-        ItemNode itemNode = new ItemNode(item.getItemId());
-        itemNode.setLocation(new MunicipalityNode(location.getMunicipality()));
-        itemNode.setPublisher(publisherNode);
-
-        when(mockItemRepository.findByItemId(item.getItemId())).thenReturn(null);
-        when(mockPublisherRepository.findByName(item.getPublisher())).thenReturn(null);
-        when(mockPublisherRepository.save(any(PublisherNode.class))).thenReturn(publisherNode);
-        when(mockMunicipalityRepository.findByMunicipality(location.getMunicipality())).thenReturn(null);
-        when(mockCountyRepository.findByCounty(location.getCounty())).thenReturn(null);
-        when(mockCountryRepository.findByCountry(location.getCountry())).thenReturn(null);
-        when(mockMunicipalityRepository.save(any(MunicipalityNode.class))).thenReturn(new MunicipalityNode("municipality"));
-        when(mockCountyRepository.save(any(CountyNode.class))).thenReturn(new CountyNode("county"));
-        when(mockCountryRepository.save(any(CountryNode.class))).thenReturn(new CountryNode("country"));
-        when(mockItemRepository.save(any(ItemNode.class))).thenReturn(itemNode);
-    }
-
-    private void verifyThatItemAndLocationAndPublisherGotSaved(Item item) {
-        verify(mockItemRepository).findByItemId(item.getItemId());
-        verify(mockPublisherRepository).findByName(item.getPublisher());
-        verify(mockPublisherRepository).save(any(PublisherNode.class));
-        verify(mockMunicipalityRepository).findByMunicipality(item.getLocation().getMunicipality());
-        verify(mockCountyRepository).findByCounty(item.getLocation().getCounty());
-        verify(mockCountryRepository).findByCountry(item.getLocation().getCountry());
-        verify(mockMunicipalityRepository).save(any(MunicipalityNode.class));
-        verify(mockItemRepository).save(any(ItemNode.class));
-        verifyNoMoreInteractions(mockItemRepository);
-        verifyNoMoreInteractions(mockPublisherRepository);
-        verifyNoMoreInteractions(mockMunicipalityRepository);
-        verifyNoMoreInteractions(mockCountyRepository);
-        verifyNoMoreInteractions(mockCountryRepository);
+    @After
+    public void tearDown() throws Exception {
+        verifyNoMoreInteractions(userService);
+        verifyNoMoreInteractions(sessionService);
+        verifyNoMoreInteractions(itemService);
+        verifyNoMoreInteractions(searchService);
     }
 
     @Test
-    public void ifPublisherAndLocationExistsButNotItemThenSaveOnlyItemNodeAndConnectThem() throws Exception {
+    public void whenNotAnonymousUserThenAddItemActionToUserGraph() throws Exception {
+        ItemAction itemAction = createDefaultItemAction();
+        UserNode userNode = new UserNode(itemAction.getUser().getUserId());
+        SessionNode sessionNode = new SessionNode(itemAction.getSession().getSessionId());
+        ItemNode itemNode = new ItemNode(itemAction.getItemId());
+        SearchNode searchNode = new SearchNode(new SearchQueryNode(itemAction.getQuery()));
+
+        when(userService.getUser(itemAction.getUser())).thenReturn(userNode);
+        when(sessionService.getSession(userNode, itemAction.getSession())).thenReturn(sessionNode);
+        when(itemService.getItem(itemAction.getItemId())).thenReturn(itemNode);
+        when(searchService.getSearchNode(sessionNode, itemNode, itemAction)).thenReturn(searchNode);
+
+        simpleGraphInsertService.addItemAction(itemAction);
+
+        verify(userService).getUser(itemAction.getUser());
+        verify(sessionService).getSession(userNode, itemAction.getSession());
+        verify(itemService).getItem(itemAction.getItemId());
+        verify(searchService).getSearchNode(sessionNode, itemNode, itemAction);
+        verify(userService).save(userNode);
+    }
+
+    @Test
+    public void whenAnonymousUserThenAddItemActionToSessionGraph() throws Exception {
+        ItemAction itemAction = createAnonymousItemAction();
+        SessionNode sessionNode = new SessionNode(itemAction.getSession().getSessionId());
+        ItemNode itemNode = new ItemNode(itemAction.getItemId());
+        SearchNode searchNode = new SearchNode(new SearchQueryNode(itemAction.getQuery()));
+
+        when(userService.getUser(null)).thenReturn(null);
+        when(sessionService.getSession(null, itemAction.getSession())).thenReturn(sessionNode);
+        when(itemService.getItem(itemAction.getItemId())).thenReturn(itemNode);
+        when(searchService.getSearchNode(sessionNode, itemNode, itemAction)).thenReturn(searchNode);
+
+        simpleGraphInsertService.addItemAction(itemAction);
+
+        verify(userService).getUser(null);
+        verify(sessionService).getSession(null, itemAction.getSession());
+        verify(itemService).getItem(itemAction.getItemId());
+        verify(searchService).getSearchNode(sessionNode, itemNode, itemAction);
+        verify(sessionService).saveSession(sessionNode);
+    }
+
+    private ItemAction createDefaultItemAction() {
+        ItemAction itemAction = new ItemAction();
+        User user = new User();
+        user.setUserId("user1");
+        itemAction.setUser(user);
+        Session session = new Session("session1");
+        itemAction.setSession(session);
+        return itemAction;
+    }
+
+    private ItemAction createAnonymousItemAction() {
+        ItemAction itemAction = new ItemAction();
+        Session session = new Session("session1");
+        itemAction.setSession(session);
+        return itemAction;
+    }
+
+    @Test
+    public void addItemToGraph() throws Exception {
         Item item = createItem();
-
-        mockCallsToSaveOnlyItem(item);
         simpleGraphInsertService.addItem(item);
-        verifyThatOnlyItemGotSaved(item);
-    }
-
-    private void mockCallsToSaveOnlyItem(Item item) {
-        Location location = item.getLocation();
-
-        PublisherNode publisherNode = new PublisherNode(item.getPublisher());
-        ItemNode itemNode = new ItemNode(item.getItemId());
-        itemNode.setLocation(new MunicipalityNode(location.getMunicipality()));
-        itemNode.setPublisher(publisherNode);
-
-        when(mockItemRepository.findByItemId(item.getItemId())).thenReturn(null);
-        when(mockPublisherRepository.findByName(item.getPublisher())).thenReturn(publisherNode);
-        when(mockItemRepository.save(any(ItemNode.class))).thenReturn(itemNode);
-    }
-
-    private void verifyThatOnlyItemGotSaved(Item item) {
-        verify(mockItemRepository).findByItemId(item.getItemId());
-        verify(mockPublisherRepository).findByName(item.getPublisher());
-        verify(mockItemRepository).save(any(ItemNode.class));
-        verifyNoMoreInteractions(mockItemRepository);
-        verifyNoMoreInteractions(mockPublisherRepository);
+        verify(itemService).saveItem(item);
     }
 
     private Item createItem() {

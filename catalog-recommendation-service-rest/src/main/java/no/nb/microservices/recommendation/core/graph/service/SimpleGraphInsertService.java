@@ -1,10 +1,12 @@
 package no.nb.microservices.recommendation.core.graph.service;
 
-import no.nb.microservices.recommendation.core.graph.build.*;
+import no.nb.microservices.recommendation.core.graph.build.ItemService;
+import no.nb.microservices.recommendation.core.graph.build.SearchService;
+import no.nb.microservices.recommendation.core.graph.build.SessionService;
+import no.nb.microservices.recommendation.core.graph.build.UserService;
 import no.nb.microservices.recommendation.core.graph.model.node.ItemNode;
 import no.nb.microservices.recommendation.core.graph.model.node.SessionNode;
 import no.nb.microservices.recommendation.core.graph.model.node.UserNode;
-import no.nb.microservices.recommendation.core.graph.repository.*;
 import no.nb.microservices.recommendation.model.query.Item;
 import no.nb.microservices.recommendation.model.query.ItemAction;
 import org.slf4j.Logger;
@@ -17,65 +19,45 @@ import org.springframework.transaction.annotation.Transactional;
 public class SimpleGraphInsertService implements GraphInsertService {
 
     private final Logger log = LoggerFactory.getLogger(SimpleGraphInsertService.class);
-    private final ItemRepository itemRepository;
-    private final SessionRepository sessionRepository;
-    private final UserRepository userRepository;
-    private final SearchRepository searchRepository;
-    private final PublisherRepository publisherRepository;
-    private final SearchQueryRepository searchQueryRepository;
-    private final MunicipalityRepository municipalityRepository;
-    private final CountyRepository countyRepository;
-    private final CountryRepository countryRepository;
+    private final UserService userService;
+    private final SearchService searchService;
+    private final SessionService sessionService;
+    private final ItemService itemService;
 
     @Autowired
-    public SimpleGraphInsertService(ItemRepository itemRepository, SessionRepository sessionRepository,
-                                    UserRepository userRepository, SearchRepository searchRepository,
-                                    PublisherRepository publisherRepository, SearchQueryRepository searchQueryRepository,
-                                    MunicipalityRepository municipalityRepository, CountyRepository countyRepository,
-                                    CountryRepository countryRepository) {
-        this.itemRepository = itemRepository;
-        this.userRepository = userRepository;
-        this.sessionRepository = sessionRepository;
-        this.searchRepository = searchRepository;
-        this.publisherRepository = publisherRepository;
-        this.searchQueryRepository = searchQueryRepository;
-        this.municipalityRepository = municipalityRepository;
-        this.countyRepository = countyRepository;
-        this.countryRepository = countryRepository;
+    public SimpleGraphInsertService(UserService userService, SearchService searchService,
+                                    SessionService sessionService, ItemService itemService) {
+        this.userService = userService;
+        this.searchService = searchService;
+        this.sessionService = sessionService;
+        this.itemService = itemService;
     }
 
     @Transactional
     public void addItemAction(ItemAction itemAction) {
         // Finds user
-        UserNode user = new UserNodeBuilder(itemAction.getUser(), userRepository).build();
+        UserNode user = userService.getUser(itemAction.getUser());
 
         // Finds session
-        SessionNode session = new SessionNodeBuilder(user, itemAction.getSession(), sessionRepository).build();
+        SessionNode session = sessionService.getSession(user, itemAction.getSession());
 
         // Finds item
-        ItemNode item = itemRepository.findByItemId(itemAction.getItemId());
+        ItemNode item = itemService.getItem(itemAction.getItemId());
 
         session.addAction(item, itemAction.getAction());
-        session.addSearch(new SearchNodeBuilder(itemAction, session, item, searchQueryRepository).build());
-        session.setLocation(new LocationNodeBuilder(itemAction.getSession().getLocation(), session, municipalityRepository, countyRepository, countryRepository).build());
+        session.addSearch(searchService.getSearchNode(session, item, itemAction));
 
-        if (user != null) {
+        if(user != null) {
             user.addSession(session);
-            userRepository.save(user);
+            userService.save(user);
         } else if (session != null) {
-            sessionRepository.save(session);
+            sessionService.saveSession(session);
         }
     }
 
     @Override
     @Transactional
     public void addItem(Item item) {
-        ItemNode itemNode = itemRepository.findByItemId(item.getItemId());
-        if (itemNode == null) {
-            itemNode = new ItemNode(item.getItemId(), item.getMediaType(), item.getTopics());
-            itemNode.setPublisher(new PublisherNodeBuilder(item.getPublisher(), publisherRepository).build());
-            itemNode.setLocation(new LocationNodeBuilder(item.getLocation(), municipalityRepository, countyRepository, countryRepository).build());
-            itemRepository.save(itemNode);
-        }
+        itemService.saveItem(item);
     }
 }

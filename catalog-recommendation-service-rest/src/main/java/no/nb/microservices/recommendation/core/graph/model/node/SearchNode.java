@@ -47,4 +47,8 @@ public class SearchNode {
     public void setSearchQuery(SearchQueryNode searchQuery) {
         this.searchQuery = searchQuery;
     }
+
+    public Set<ItemNode> getVisits() {
+        return visits;
+    }
 }

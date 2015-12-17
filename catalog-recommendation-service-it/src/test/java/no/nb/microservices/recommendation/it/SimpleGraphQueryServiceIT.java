@@ -42,8 +42,6 @@ public class SimpleGraphQueryServiceIT {
     @Autowired
     private SearchRepository searchRepository;
     @Autowired
-    private LocationRepository locationRepository;
-    @Autowired
     private PublisherRepository publisherRepository;
     @Autowired
     private SearchQueryRepository searchQueryRepository;
@@ -55,7 +53,7 @@ public class SimpleGraphQueryServiceIT {
     @Before
     public void setUp() throws Exception {
         graphQueryService = new SimpleGraphQueryService(itemRepository, sessionRepository, userRepository,
-                searchRepository, locationRepository, publisherRepository, searchQueryRepository);
+                searchRepository, publisherRepository, searchQueryRepository);
 
         createGraph();
     }
@@ -65,7 +63,7 @@ public class SimpleGraphQueryServiceIT {
         Date fromDate = new DateTime(2010, 1, 1, 12, 0).toDate();
         Date toDate = new DateTime(2016, 1, 1, 12, 0).toDate();
 
-        Collection<RecommendationQuery> mostVisited = graphQueryService.findMostVisitedItems(fromDate.getTime(), toDate.getTime(), 10);
+        Collection<RecommendationQuery> mostVisited = graphQueryService.findMostVisitedItems(fromDate.getTime(), toDate.getTime(), 10, null);
 
         assertThat(mostVisited, hasSize(3));
         RecommendationQuery recommendationQuery = mostVisited.iterator().next();

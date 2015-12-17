@@ -8,6 +8,13 @@ public class User {
     private String gender;
     private Collection<String> interests;
 
+    public User() {
+    }
+
+    public User(String userId) {
+        this.userId = userId;
+    }
+
     public String getUserId() {
         return userId;
     }

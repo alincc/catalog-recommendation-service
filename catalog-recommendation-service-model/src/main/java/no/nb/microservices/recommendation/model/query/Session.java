@@ -7,6 +7,13 @@ public class Session {
     private Date date;
     private Location location;
 
+    public Session() {
+    }
+
+    public Session(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
     public String getSessionId() {
         return sessionId;
     }

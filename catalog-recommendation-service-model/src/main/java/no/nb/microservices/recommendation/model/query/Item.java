@@ -9,6 +9,15 @@ public class Item {
     private Location location;
     private Collection<String> topics;
 
+    public Item() {
+    }
+
+    public Item(String itemId, String mediaType, Collection<String> topics) {
+        this.itemId = itemId;
+        this.mediaType = mediaType;
+        this.topics = topics;
+    }
+
     public String getItemId() {
         return itemId;
     }

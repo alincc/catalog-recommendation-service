@@ -19,9 +19,9 @@ public class SimpleGraphQueryService implements GraphQueryService {
     private final SearchQueryRepository searchQueryRepository;
 
     @Autowired
-    public SimpleGraphQueryService(ItemRepository itemRepository, SessionRepository sessionRepository,
-                                   UserRepository userRepository, SearchRepository searchRepository,
-                                   PublisherRepository publisherRepository, SearchQueryRepository searchQueryRepository) {
+    public SimpleGraphQueryService(ItemRepository itemRepository, SessionRepository sessionRepository, UserRepository userRepository,
+                                   SearchRepository searchRepository, PublisherRepository publisherRepository,
+                                   SearchQueryRepository searchQueryRepository) {
         this.itemRepository = itemRepository;
         this.sessionRepository = sessionRepository;
         this.userRepository = userRepository;
