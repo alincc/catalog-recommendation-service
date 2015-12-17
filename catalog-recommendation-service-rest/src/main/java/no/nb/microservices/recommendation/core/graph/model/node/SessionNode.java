@@ -23,7 +23,7 @@ public class SessionNode {
     @Relationship(type = "DOWNLOADED", direction = Relationship.OUTGOING)
     private Set<ItemNode> downloads = new HashSet<>();
 
-    @Relationship(type = "LIKED", direction = Relationship.OUTGOING)
+    @Relationship(type = "LIKES", direction = Relationship.OUTGOING)
     private Set<ItemNode> likes = new HashSet<>();
 
     @Relationship(type = "CREATED_SEARCH", direction = Relationship.OUTGOING)

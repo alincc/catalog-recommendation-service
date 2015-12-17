@@ -8,13 +8,13 @@ import org.neo4j.ogm.annotation.RelationshipEntity;
 import java.util.Date;
 
 @RelationshipEntity(type = "LIKES")
-public class Liked extends AbstractItemAction {
+public class Likes extends AbstractItemAction {
 
-    public Liked() {
+    public Likes() {
         super();
     }
 
-    public Liked(SessionNode session, ItemNode item, Date timestamp) {
+    public Likes(SessionNode session, ItemNode item, Date timestamp) {
         super(session, item, timestamp);
     }
 }

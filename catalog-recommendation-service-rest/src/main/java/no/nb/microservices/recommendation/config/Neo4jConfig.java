@@ -20,6 +20,7 @@ public class Neo4jConfig extends Neo4jConfiguration {
         return new SessionFactory("no.nb.microservices.recommendation.core.graph.model");
     }
 
+    @Override
     @Bean
     public Neo4jServer neo4jServer() {
         return new RemoteServer("http://localhost:7474", "neo4j", "Newton");
