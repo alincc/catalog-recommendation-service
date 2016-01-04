@@ -1,10 +1,13 @@
 package no.nb.microservices.recommendation.core.graph.build;
 
+import no.nb.microservices.recommendation.core.graph.model.edge.Published;
 import no.nb.microservices.recommendation.core.graph.model.node.ItemNode;
 import no.nb.microservices.recommendation.core.graph.repository.ItemRepository;
 import no.nb.microservices.recommendation.model.query.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 public class ItemNodeService implements ItemService {
@@ -27,7 +30,7 @@ public class ItemNodeService implements ItemService {
         if(itemNode == null) {
             itemNode = new ItemNode(item.getItemId(), item.getMediaType(), item.getTopics());
             itemNode.setLocation(locationService.getLocation(item.getLocation()));
-            itemNode.setPublisher(publisherService.getPublisher(item.getPublisher()));
+            itemNode.setPublished(new Published(publisherService.getPublisher(item.getPublisher()), itemNode, new Date()));
             itemRepository.save(itemNode);
         }
     }

@@ -19,7 +19,7 @@ public interface ItemRepository extends GraphRepository<ItemNode> {
     @Query("MERGE (i:Item { itemId: {0}.itemId, mediaType: {0}.mediaType, topics: {0}.topics }) RETURN i")
     ItemNode merge(ItemNode item);
 
-    @Query("MATCH (o:Item)<-[:VISITED]-(s:Session)-[:VISITED]->(i:Item) \n" +
+    @Query("MATCH (o:Item)<-[:VISITED]-(s:Session)-[:VISITED]->(i:Item)\n" +
             "WHERE i.itemId = {0}\n" +
             "RETURN o.itemId as itemId, COUNT(o) as score\n" +
             "ORDER BY score DESC\n" +

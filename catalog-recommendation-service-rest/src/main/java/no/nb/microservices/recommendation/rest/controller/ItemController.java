@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/catalog/recommend")
+@RequestMapping("/v1/catalog/recommend/items")
 public class ItemController {
 
     private final GraphInsertService graphInsertService;
@@ -20,13 +20,13 @@ public class ItemController {
         this.graphInsertService = graphInsertService;
     }
 
-    @RequestMapping(value = "/items", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity addItem(@RequestBody Item item) {
         graphInsertService.addItem(item);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/items/{itemId}/actions", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{itemId}/actions", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity addItemAction(@PathVariable String itemId, @RequestBody ItemAction itemAction) {
         itemAction.setItemId(itemId);
         graphInsertService.addItemAction(itemAction);

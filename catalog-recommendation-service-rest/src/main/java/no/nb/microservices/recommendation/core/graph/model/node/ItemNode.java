@@ -1,5 +1,6 @@
 package no.nb.microservices.recommendation.core.graph.model.node;
 
+import no.nb.microservices.recommendation.core.graph.model.edge.Published;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
@@ -20,8 +21,8 @@ public class ItemNode {
     @Relationship(type = "HAS_LOCATION", direction = Relationship.OUTGOING)
     private MunicipalityNode location;
 
-    @Relationship(type = "PUBLISHED_BY", direction = Relationship.OUTGOING)
-    private PublisherNode publisher;
+    @Relationship(type = "PUBLISHED", direction = Relationship.INCOMING)
+    private Published published;
 
     public ItemNode() {
     }
@@ -68,11 +69,7 @@ public class ItemNode {
         this.location = location;
     }
 
-    public PublisherNode getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(PublisherNode publisher) {
-        this.publisher = publisher;
+    public void setPublished(Published published) {
+        this.published = published;
     }
 }

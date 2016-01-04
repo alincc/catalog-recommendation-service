@@ -9,6 +9,7 @@ import java.util.Collection;
 public class SimplePermissionFilter implements PermissionFilter {
     @Override
     public Collection<RecommendationItem> filter(Collection<RecommendationItem> recommendationItems) {
+        // TODO: Write filter
         return recommendationItems;
     }
 }
