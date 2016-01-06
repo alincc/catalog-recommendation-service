@@ -2,6 +2,7 @@ package no.nb.microservices.recommendation.config;
 
 import org.neo4j.ogm.session.Session;
 import org.neo4j.ogm.session.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.neo4j.config.Neo4jConfiguration;
@@ -15,6 +16,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class Neo4jConfig extends Neo4jConfiguration {
 
+    @Autowired
+    private ApplicationSettings applicationSettings;
+
     @Override
     public SessionFactory getSessionFactory() {
         return new SessionFactory("no.nb.microservices.recommendation.core.graph.model");
@@ -23,7 +27,7 @@ public class Neo4jConfig extends Neo4jConfiguration {
     @Override
     @Bean
     public Neo4jServer neo4jServer() {
-        return new RemoteServer("http://localhost:7474", "neo4j", "Newton");
+        return new RemoteServer(applicationSettings.getNeo4jHost(), "neo4j", "neo4j");
     }
 
     @Override

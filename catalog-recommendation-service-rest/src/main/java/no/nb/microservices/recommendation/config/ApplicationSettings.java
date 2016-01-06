@@ -7,13 +7,13 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "recommendation")
 public class ApplicationSettings {
 
-    private String neo4jDb;
+    private String neo4jHost;
 
-    public String getNeo4jDb() {
-        return neo4jDb;
+    public String getNeo4jHost() {
+        return neo4jHost;
     }
 
-    public void setNeo4jDb(String neo4jDb) {
-        this.neo4jDb = neo4jDb;
+    public void setNeo4jHost(String neo4jHost) {
+        this.neo4jHost = neo4jHost;
     }
 }

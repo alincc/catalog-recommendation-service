@@ -23,7 +23,7 @@ public class Neo4jHealthIndicator extends AbstractHealthIndicator {
     @Override
     protected void doHealthCheck(Builder builder) throws Exception {
         try {
-            ResponseEntity<LinkedHashMap> responseEntity = restTemplate.getForEntity(settings.getNeo4jDb(), LinkedHashMap.class);
+            ResponseEntity<LinkedHashMap> responseEntity = restTemplate.getForEntity(settings.getNeo4jHost(), LinkedHashMap.class);
             builder.up().withDetail("neo4j_version", responseEntity.getBody().get("neo4j_version"));
         } catch (Exception error) {
             builder.down(error);

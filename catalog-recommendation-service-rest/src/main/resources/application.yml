@@ -20,7 +20,7 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 
 recommendation:
-    neo4jDb: http://localhost:7474/db/data
+    neo4jHost: http://localhost:7474/
 
 ---
 spring:
@@ -35,3 +35,6 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://discovery:8761/eureka/
+
+recommendation:
+    neo4jHost: http://neo4j:7474/
