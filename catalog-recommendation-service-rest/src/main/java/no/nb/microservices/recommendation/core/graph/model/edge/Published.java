@@ -3,8 +3,6 @@ package no.nb.microservices.recommendation.core.graph.model.edge;
 
 import no.nb.microservices.recommendation.core.graph.model.node.ItemNode;
 import no.nb.microservices.recommendation.core.graph.model.node.PublisherNode;
-import no.nb.microservices.recommendation.core.graph.model.node.SearchNode;
-import no.nb.microservices.recommendation.core.graph.model.node.SessionNode;
 import org.neo4j.ogm.annotation.EndNode;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.RelationshipEntity;

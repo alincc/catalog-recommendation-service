@@ -27,7 +27,7 @@ public interface ItemRepository extends GraphRepository<ItemNode> {
     Collection<RecommendationQuery> findWhatOtherHaveVisited(String itemId);
 
     @Query("MATCH (s:Session)-[:VISITED]->(i:Item) " +
-            "WHERE (s.date >= {fromDate}) AND (s.date <= {toDate}) " +
+            "WHERE (s.timestamp >= {fromDate}) AND (s.timestamp <= {toDate}) " +
             "WITH i, COUNT(*) AS score " +
             "RETURN i.itemId AS itemId, score " +
             "ORDER BY score DESC " +
@@ -37,7 +37,7 @@ public interface ItemRepository extends GraphRepository<ItemNode> {
                                                     @Param("limit") int limit);
 
     @Query("MATCH (s:Session)-[:VISITED]->(i:Item) " +
-            "WHERE (s.date >= {fromDate}) AND (s.date <= {toDate}) AND (i.mediaType = {mediaType})" +
+            "WHERE (s.timestamp >= {fromDate}) AND (s.timestamp <= {toDate}) AND (i.mediaType = {mediaType})" +
             "WITH i, COUNT(*) AS score " +
             "RETURN i.itemId AS itemId, score " +
             "ORDER BY score DESC " +

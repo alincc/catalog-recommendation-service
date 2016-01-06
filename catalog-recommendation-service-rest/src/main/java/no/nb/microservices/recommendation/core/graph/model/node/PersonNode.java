@@ -1,7 +1,6 @@
 package no.nb.microservices.recommendation.core.graph.model.node;
 
 import no.nb.microservices.recommendation.core.graph.model.edge.HasRole;
-import no.nb.microservices.recommendation.core.graph.model.edge.Published;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;

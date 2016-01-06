@@ -8,9 +8,7 @@ import no.nb.microservices.recommendation.core.item.service.CatalogItemService;
 import no.nb.microservices.recommendation.model.response.Recommendation;
 import no.nb.microservices.recommendation.model.response.RecommendationWrapper;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class RecommendationAssembler {

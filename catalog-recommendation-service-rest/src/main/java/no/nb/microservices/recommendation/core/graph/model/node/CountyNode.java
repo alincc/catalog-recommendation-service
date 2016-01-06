@@ -9,7 +9,7 @@ public class CountyNode {
     private Long id;
     private String county;
 
-    @Relationship(type = "IN_COUNTRY", direction = Relationship.OUTGOING)
+    @Relationship(type = "LOCATED_IN", direction = Relationship.OUTGOING)
     private CountryNode countryNode;
 
     public CountyNode() {

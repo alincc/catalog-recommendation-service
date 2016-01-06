@@ -33,7 +33,7 @@ public class SessionNode {
     private MunicipalityNode location;
 
     @DateLong
-    private Date date;
+    private Date timestamp;
 
     protected SessionNode() {
     }
@@ -42,9 +42,9 @@ public class SessionNode {
         this.sessionId = sessionId;
     }
 
-    public SessionNode(String sessionId, Date date) {
+    public SessionNode(String sessionId, Date timestamp) {
         this.sessionId = sessionId;
-        this.date = date;
+        this.timestamp = timestamp;
     }
 
     public SessionNode(String sessionId, MunicipalityNode location) {
@@ -52,9 +52,9 @@ public class SessionNode {
         this.location = location;
     }
 
-    public SessionNode(String sessionId, Date date, MunicipalityNode locationNode) {
+    public SessionNode(String sessionId, Date timestamp, MunicipalityNode locationNode) {
         this.sessionId = sessionId;
-        this.date = date;
+        this.timestamp = timestamp;
         this.location = locationNode;
     }
 

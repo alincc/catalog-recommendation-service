@@ -13,7 +13,7 @@ public class MunicipalityNode {
     @Index
     private String municipality;
 
-    @Relationship(type = "IN_COUNTY", direction = Relationship.OUTGOING)
+    @Relationship(type = "LOCATED_IN", direction = Relationship.OUTGOING)
     private CountyNode countyNode;
 
     public MunicipalityNode() {
