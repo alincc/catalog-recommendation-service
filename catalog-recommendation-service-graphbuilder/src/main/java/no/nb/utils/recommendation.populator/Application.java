@@ -1,13 +1,16 @@
 package no.nb.utils.recommendation.populator;
 
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.io.IOException;
 
-@SpringBootApplication
 public class Application {
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+    public static void main(String[] args) throws IOException {
+        GraphBuilder graphBuilder = new GraphBuilder();
+
+        int maxItems = 500000;
+        int maxActions = 10000000;
+
+        graphBuilder.setup(maxItems, maxActions);
     }
 }

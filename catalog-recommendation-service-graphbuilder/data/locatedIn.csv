@@ -1,0 +1,16 @@
+:START_ID,:END_ID,:TYPE
+rana,nordland,LOCATED_IN
+grong,nordland,LOCATED_IN
+salten,nordland,LOCATED_IN
+alta,finnmark,LOCATED_IN
+hemavan,vasterbotten,LOCATED_IN
+oslo,akershus,LOCATED_IN
+lillehammer,hedmark,LOCATED_IN
+gjovik,hedmark,LOCATED_IN
+brummendal,hedmark,LOCATED_IN
+hamar,hedmark,LOCATED_IN
+nordland,norway,LOCATED_IN
+finnmark,norway,LOCATED_IN
+akershus,norway,LOCATED_IN
+hedmark,norway,LOCATED_IN
+vasterbotten,sweden,LOCATED_IN
