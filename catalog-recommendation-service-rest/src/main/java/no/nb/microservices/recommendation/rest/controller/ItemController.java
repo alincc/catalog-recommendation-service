@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/catalog/recommend/items")
+@RequestMapping("/catalog/v1/recommend/items")
 public class ItemController {
 
     private final GraphInsertService graphInsertService;

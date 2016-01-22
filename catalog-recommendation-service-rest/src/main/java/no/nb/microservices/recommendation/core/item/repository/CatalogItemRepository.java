@@ -12,7 +12,7 @@ import java.util.List;
 @FeignClient("catalog-item-service")
 public interface CatalogItemRepository {
 
-    @RequestMapping(value = "/v1/catalog/items/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/catalog/v1/items/{id}", method = RequestMethod.GET)
     ItemResource getItem(@PathVariable("id") String id,
                           @RequestParam("fields") List<String> fields,
                           @RequestParam("expand") List<String> expand);

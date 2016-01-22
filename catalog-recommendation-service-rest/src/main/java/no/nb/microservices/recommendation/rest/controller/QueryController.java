@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/v1/catalog/recommend/query")
+@RequestMapping("/catalog/v1/recommend/query")
 public class QueryController {
 
     private final GraphQueryService graphQueryService;
