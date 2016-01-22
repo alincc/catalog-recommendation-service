@@ -8,8 +8,8 @@ public class Application {
     public static void main(String[] args) throws IOException {
         GraphBuilder graphBuilder = new GraphBuilder();
 
-        int maxItems = 500000;
-        int maxActions = 10000000;
+        int maxItems = 3;
+        int maxActions = 10;
 
         graphBuilder.setup(maxItems, maxActions);
     }

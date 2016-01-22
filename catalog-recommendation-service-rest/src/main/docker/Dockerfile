@@ -1,4 +1,4 @@
 FROM java:8
-ADD clickstream.jar app.jar
+ADD catalog-recommendation-service.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-Dspring.profiles.active=docker", "-jar", "app.jar"]
