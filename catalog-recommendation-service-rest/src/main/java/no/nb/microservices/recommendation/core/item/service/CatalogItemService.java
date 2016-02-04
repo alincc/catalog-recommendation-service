@@ -4,9 +4,9 @@ import no.nb.microservices.recommendation.core.graph.model.query.RecommendationQ
 import no.nb.microservices.recommendation.core.item.model.RecommendationItem;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface CatalogItemService {
 
-    Collection<RecommendationItem> appendItems(Collection<RecommendationQuery> recommendationQueryCollection);
-    
+    Collection<RecommendationItem> appendItems(Collection<RecommendationQuery> recommendationQueryCollection, List<String> expand, List<String> fields);
 }

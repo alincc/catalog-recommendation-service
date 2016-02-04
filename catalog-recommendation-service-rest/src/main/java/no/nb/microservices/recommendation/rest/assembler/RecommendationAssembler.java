@@ -5,10 +5,12 @@ import no.nb.microservices.recommendation.core.filter.PermissionFilter;
 import no.nb.microservices.recommendation.core.graph.model.query.RecommendationQuery;
 import no.nb.microservices.recommendation.core.item.model.RecommendationItem;
 import no.nb.microservices.recommendation.core.item.service.CatalogItemService;
+import no.nb.microservices.recommendation.model.response.EmbeddedWrapper;
 import no.nb.microservices.recommendation.model.response.Recommendation;
-import no.nb.microservices.recommendation.model.response.RecommendationWrapper;
+import no.nb.microservices.recommendation.model.response.RootResponse;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class RecommendationAssembler {
@@ -18,6 +20,9 @@ public class RecommendationAssembler {
     private PermissionFilter permissionFilter;
     private boolean filterItems = false;
     private boolean addItems = false;
+    private List<String> expand;
+    private List<String> fields;
+
 
     public RecommendationAssembler(Collection<RecommendationQuery> recommendationQueries) {
         this.recommendationQueries = recommendationQueries;
@@ -29,26 +34,33 @@ public class RecommendationAssembler {
         return this;
     }
 
-    public RecommendationAssembler appendItem(CatalogItemService catalogItemService) {
+    public RecommendationAssembler appendItem(CatalogItemService catalogItemService, List<String> expand, List<String> fields) {
+        this.expand = expand;
+        this.fields = fields;
         this.catalogItemService = catalogItemService;
         this.addItems = (this.catalogItemService != null);
         return this;
     }
 
-    public RecommendationWrapper build() {
+    public RootResponse build() {
+        List<Recommendation> recommendations;
+
         if (this.addItems) {
-            Collection<RecommendationItem> recommendationItems = catalogItemService.appendItems(recommendationQueries);
+            Collection<RecommendationItem> recommendationItems = catalogItemService.appendItems(recommendationQueries, expand, fields);
 
             if (this.filterItems) {
                 recommendationItems = permissionFilter.filter(recommendationItems);
             }
-
-            return new RecommendationWrapper(recommendationItems.stream().map(q -> mapItem(q)).collect(Collectors.toList()));
+            recommendations = recommendationItems.stream().map(q -> mapItem(q)).collect(Collectors.toList());
         }
         else {
-            return new RecommendationWrapper(recommendationQueries.stream().map(q -> mapQuery(q)).collect(Collectors.toList()));
+            recommendations = recommendationQueries.stream().map(q -> mapQuery(q)).collect(Collectors.toList());
 
         }
+
+        RootResponse rootResponse = new RootResponse(new EmbeddedWrapper(recommendations));
+
+        return rootResponse;
     }
 
     private Recommendation mapItem(RecommendationItem recommendationItem) {
@@ -56,7 +68,11 @@ public class RecommendationAssembler {
     }
 
     private Recommendation mapQuery(RecommendationQuery recommendationQuery) {
-        return new Recommendation(new ItemResource(recommendationQuery.getItemId()), recommendationQuery.getScore());
+        ItemResource itemResource = new ItemResource(recommendationQuery.getItemId());
+
+        itemResource.add(ResourceLinkBuilder.linkTo(ResourceTemplateLink.ITEM_SELF, recommendationQuery.getItemId()).withRel("self"));
+
+        return new Recommendation(itemResource, recommendationQuery.getScore());
     }
 
 }

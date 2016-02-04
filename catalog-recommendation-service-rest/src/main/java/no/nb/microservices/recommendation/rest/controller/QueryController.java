@@ -4,7 +4,7 @@ import no.nb.microservices.recommendation.core.filter.PermissionFilter;
 import no.nb.microservices.recommendation.core.graph.model.query.RecommendationQuery;
 import no.nb.microservices.recommendation.core.graph.service.GraphQueryService;
 import no.nb.microservices.recommendation.core.item.service.CatalogItemService;
-import no.nb.microservices.recommendation.model.response.RecommendationWrapper;
+import no.nb.microservices.recommendation.model.response.RootResponse;
 import no.nb.microservices.recommendation.rest.assembler.RecommendationAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/catalog/v1/recommend/query")
@@ -31,21 +35,24 @@ public class QueryController {
     }
 
     @RequestMapping(value = "/othershavevisited")
-    public RecommendationWrapper findOtherHaveVisited(@RequestParam String itemId,
-                                                      @RequestParam(required = false) boolean appendItem,
-                                                      @RequestParam(required = false) boolean filter)
+    public RootResponse findOtherHaveVisited(@RequestParam String itemId,
+                                             @RequestParam(required = false) List<String> fields,
+                                             @RequestParam(required = false) List<String> expand,
+                                             @RequestParam(required = false) boolean filter)
     {
         Collection<RecommendationQuery> recommendations = graphQueryService.findWhatOtherHaveVisited(itemId);
 
         RecommendationAssembler assembler = new RecommendationAssembler(recommendations);
-        if (appendItem) assembler.appendItem(catalogItemService);
+        if (expand != null && expand.contains("item")) assembler.appendItem(catalogItemService, null, fields);
         if (filter) assembler.withFilter(permissionFilter);
 
-        return assembler.build();
+        RootResponse root = assembler.build();
+        root.add(linkTo(methodOn(QueryController.class).findOtherHaveVisited(itemId, fields, expand, filter)).withSelfRel());
+        return root;
     }
 
     @RequestMapping(value = "/mostvisited")
-    public RecommendationWrapper findMostVisitedItems(@RequestParam(required = false, defaultValue = "01010001") @DateTimeFormat(pattern = "MMddyyyy") Date fromDate,
+    public RootResponse findMostVisitedItems(@RequestParam(required = false, defaultValue = "01010001") @DateTimeFormat(pattern = "MMddyyyy") Date fromDate,
                                                       @RequestParam(required = false, defaultValue = "01012999") @DateTimeFormat(pattern = "MMddyyyy") Date toDate,
                                                       @RequestParam(required = false, defaultValue = "10") int limit,
                                                       @RequestParam(required = false) String mediaType)

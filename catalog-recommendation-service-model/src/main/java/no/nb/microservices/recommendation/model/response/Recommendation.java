@@ -9,13 +9,13 @@ import no.nb.microservices.catalogitem.rest.model.ItemResource;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Recommendation {
     private double score;
-    private ItemResource itemResource;
+    private ItemResource item;
 
     public Recommendation() {
     }
 
-    public Recommendation(ItemResource itemResource, double score) {
-        this.itemResource = itemResource;
+    public Recommendation(ItemResource item, double score) {
+        this.item = item;
         this.score = score;
     }
 
@@ -27,11 +27,11 @@ public class Recommendation {
         this.score = score;
     }
 
-    public ItemResource getItemResource() {
-        return itemResource;
+    public ItemResource getItem() {
+        return item;
     }
 
-    public void setItemResource(ItemResource itemResource) {
-        this.itemResource = itemResource;
+    public void setItem(ItemResource item) {
+        this.item = item;
     }
 }

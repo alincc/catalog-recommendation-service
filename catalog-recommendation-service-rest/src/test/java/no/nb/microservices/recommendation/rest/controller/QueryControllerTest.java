@@ -2,13 +2,17 @@ package no.nb.microservices.recommendation.rest.controller;
 
 import no.nb.microservices.recommendation.core.graph.model.query.RecommendationQuery;
 import no.nb.microservices.recommendation.core.graph.service.GraphQueryService;
-import no.nb.microservices.recommendation.model.response.RecommendationWrapper;
+import no.nb.microservices.recommendation.model.response.RootResponse;
 import org.joda.time.DateTime;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,6 +30,15 @@ public class QueryControllerTest {
     @InjectMocks
     private QueryController queryController;
 
+    private MockHttpServletRequest request;
+
+    @Before
+    public void init() {
+        request = new MockHttpServletRequest("GET", "/catalog/v1/id1");
+        ServletRequestAttributes attributes = new ServletRequestAttributes(request);
+        RequestContextHolder.setRequestAttributes(attributes);
+    }
+
     @Test
     public void shouldGetTopVisitedItems() throws Exception {
         Collection<RecommendationQuery> recommendationQuery = new ArrayList<>();
@@ -34,7 +47,7 @@ public class QueryControllerTest {
         Date toDate = new DateTime(2015, 1, 1, 12, 0).toDate();
         when(mockGraphQueryService.findMostVisitedItems(fromDate.getTime(), toDate.getTime(), 10, null)).thenReturn(recommendationQuery);
 
-        RecommendationWrapper mostVisitedItems = queryController.findMostVisitedItems(fromDate, toDate, 10, null);
+        RootResponse mostVisitedItems = queryController.findMostVisitedItems(fromDate, toDate, 10, null);
 
         assertNotNull(mostVisitedItems);
     }
@@ -47,7 +60,7 @@ public class QueryControllerTest {
         Date toDate = new DateTime(2015, 1, 1, 12, 0).toDate();
         when(mockGraphQueryService.findMostVisitedItems(fromDate.getTime(), toDate.getTime(), 10, null)).thenReturn(recommendationQuery);
 
-        RecommendationWrapper mostVisitedItems = queryController.findMostVisitedItems(fromDate, toDate, 10, "Books");
+        RootResponse mostVisitedItems = queryController.findMostVisitedItems(fromDate, toDate, 10, "Books");
 
         assertNotNull(mostVisitedItems);
     }

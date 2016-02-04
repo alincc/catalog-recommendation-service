@@ -24,12 +24,12 @@
         <dependency>
             <groupId>no.nb.microservices.catalogitem</groupId>
             <artifactId>catalog-item-service-model</artifactId>
-            <version>0.0.1-182</version>
+            <version>0.0.1-187</version>
         </dependency>
         <dependency>
             <groupId>no.nb.commons</groupId>
             <artifactId>commons-web-utils</artifactId>
-            <version>-14</version>
+            <version>0.0.1-18</version>
         </dependency>
 
         <dependency>

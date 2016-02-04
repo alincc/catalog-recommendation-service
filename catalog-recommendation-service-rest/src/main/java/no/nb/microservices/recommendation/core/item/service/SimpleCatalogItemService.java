@@ -28,8 +28,13 @@ public class SimpleCatalogItemService implements CatalogItemService {
     }
 
     @Override
-    public Collection<RecommendationItem> appendItems(Collection<RecommendationQuery> recommendationQueryCollection) {
-        List<RecommendationFuture> futureList = recommendationQueryCollection.stream().map(query -> getItemResource(query, null, null)).collect(Collectors.toList());
+    public Collection<RecommendationItem> appendItems(Collection<RecommendationQuery> recommendationQueryCollection, List<String> expand, List<String> fields) {
+
+        List<String> filteredFields = (fields != null) ?
+                fields.stream().filter(q -> q.startsWith("item")).map(q -> q.replaceAll("item\\.", "")).collect(Collectors.toList()) :
+                null;
+
+        List<RecommendationFuture> futureList = recommendationQueryCollection.stream().map(query -> getItemResource(query, expand, filteredFields)).collect(Collectors.toList());
 
         List<RecommendationItem> recommendationItems = futureList.stream().map(q -> map(q)).collect(Collectors.toList());
 

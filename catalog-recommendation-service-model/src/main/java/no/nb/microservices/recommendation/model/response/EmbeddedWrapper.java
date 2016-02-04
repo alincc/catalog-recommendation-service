@@ -1,19 +1,15 @@
 package no.nb.microservices.recommendation.model.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.List;
 
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class RecommendationWrapper {
+public class EmbeddedWrapper {
+
     private List<Recommendation> recommendations;
 
-    public RecommendationWrapper() {
+    public EmbeddedWrapper() {
     }
 
-    public RecommendationWrapper(List<Recommendation> recommendations) {
+    public EmbeddedWrapper(List<Recommendation> recommendations) {
         this.recommendations = recommendations;
     }
 
