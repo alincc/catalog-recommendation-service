@@ -36,10 +36,9 @@ public class QueryController {
 
     @RequestMapping(value = "/othershavevisited")
     public RootResponse findOtherHaveVisited(@RequestParam String itemId,
-                                             @RequestParam(required = false) List<String> fields,
                                              @RequestParam(required = false) List<String> expand,
-                                             @RequestParam(required = false) boolean filter)
-    {
+                                             @RequestParam(required = false) List<String> fields,
+                                             @RequestParam(required = false) boolean filter) {
         Collection<RecommendationQuery> recommendations = graphQueryService.findWhatOtherHaveVisited(itemId);
 
         RecommendationAssembler assembler = new RecommendationAssembler(recommendations);
@@ -47,19 +46,24 @@ public class QueryController {
         if (filter) assembler.withFilter(permissionFilter);
 
         RootResponse root = assembler.build();
-        root.add(linkTo(methodOn(QueryController.class).findOtherHaveVisited(itemId, fields, expand, filter)).withSelfRel());
+        root.add(linkTo(methodOn(QueryController.class).findOtherHaveVisited(itemId, expand, fields, filter)).withSelfRel());
         return root;
     }
 
     @RequestMapping(value = "/mostvisited")
     public RootResponse findMostVisitedItems(@RequestParam(required = false, defaultValue = "01010001") @DateTimeFormat(pattern = "MMddyyyy") Date fromDate,
-                                                      @RequestParam(required = false, defaultValue = "01012999") @DateTimeFormat(pattern = "MMddyyyy") Date toDate,
-                                                      @RequestParam(required = false, defaultValue = "10") int limit,
-                                                      @RequestParam(required = false) String mediaType)
-    {
+                                             @RequestParam(required = false, defaultValue = "01012999") @DateTimeFormat(pattern = "MMddyyyy") Date toDate,
+                                             @RequestParam(required = false, defaultValue = "10") int limit,
+                                             @RequestParam(required = false) String mediaType,
+                                             @RequestParam(required = false) List<String> expand,
+                                             @RequestParam(required = false) List<String> fields) {
         Collection<RecommendationQuery> recommendations = graphQueryService.findMostVisitedItems(fromDate.getTime(), toDate.getTime(), limit, mediaType);
 
         RecommendationAssembler assembler = new RecommendationAssembler(recommendations);
-        return assembler.build();
+        if (expand != null && expand.contains("item")) assembler.appendItem(catalogItemService, null, fields);
+
+        RootResponse root = assembler.build();
+        root.add(linkTo(methodOn(QueryController.class).findMostVisitedItems(fromDate, toDate, limit, mediaType, expand, fields)).withSelfRel());
+        return root;
     }
 }

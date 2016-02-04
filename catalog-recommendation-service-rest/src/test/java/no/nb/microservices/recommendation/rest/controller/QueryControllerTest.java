@@ -47,7 +47,7 @@ public class QueryControllerTest {
         Date toDate = new DateTime(2015, 1, 1, 12, 0).toDate();
         when(mockGraphQueryService.findMostVisitedItems(fromDate.getTime(), toDate.getTime(), 10, null)).thenReturn(recommendationQuery);
 
-        RootResponse mostVisitedItems = queryController.findMostVisitedItems(fromDate, toDate, 10, null);
+        RootResponse mostVisitedItems = queryController.findMostVisitedItems(fromDate, toDate, 10, null, null, null);
 
         assertNotNull(mostVisitedItems);
     }
@@ -60,7 +60,7 @@ public class QueryControllerTest {
         Date toDate = new DateTime(2015, 1, 1, 12, 0).toDate();
         when(mockGraphQueryService.findMostVisitedItems(fromDate.getTime(), toDate.getTime(), 10, null)).thenReturn(recommendationQuery);
 
-        RootResponse mostVisitedItems = queryController.findMostVisitedItems(fromDate, toDate, 10, "Books");
+        RootResponse mostVisitedItems = queryController.findMostVisitedItems(fromDate, toDate, 10, "Books", null, null);
 
         assertNotNull(mostVisitedItems);
     }
