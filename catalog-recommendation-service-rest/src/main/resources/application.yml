@@ -4,7 +4,7 @@ info:
     description: Recommends catalog items to the user
 
 server:
-  port: 0
+  port: 8018
 
 recommendation:
     neo4jHost: http://localhost:7474/
