@@ -24,7 +24,6 @@
         <dependency>
             <groupId>no.nb.microservices.catalogitem</groupId>
             <artifactId>catalog-item-service-model</artifactId>
-            <version>0.0.1-222</version>
         </dependency>
         <dependency>
             <groupId>no.nb.commons</groupId>
