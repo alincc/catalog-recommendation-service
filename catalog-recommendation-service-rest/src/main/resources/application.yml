@@ -1,10 +1,23 @@
 info:
-  app:
-    name: catalog-recommendation-service
-    description: Recommends catalog items to the user
+    app:
+        name: catalog-recommendation-service
+        description: Recommends catalog items to the user
+    build:
+        artifact: ${project.artifactId}
+        name: ${project.name}
+        description: ${project.description}
+        version: ${project.version}
 
 server:
-  port: 8018
+    port: 8018
+
+zipkin:
+    collector-hostname: localhost
+    
+monitoring:
+    hostname: localhost
+    port: 2003
+    period: 1    
 
 recommendation:
     neo4jHost: http://localhost:7474/
